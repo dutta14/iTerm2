@@ -287,7 +287,8 @@ final class GitHubClient {
     static func runProcess(_ path: String,
                            _ arguments: [String],
                            timeout: TimeInterval,
-                           directory: String? = nil) -> ProcessResult {
+                           directory: String? = nil,
+                           extraEnvironment: [String: String] = [:]) -> ProcessResult {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: path)
         process.arguments = arguments
@@ -298,6 +299,7 @@ final class GitHubClient {
         environment["GH_PROMPT_DISABLED"] = "1"
         environment["GH_NO_UPDATE_NOTIFIER"] = "1"
         environment["NO_COLOR"] = "1"
+        environment.merge(extraEnvironment) { _, new in new }
         process.environment = environment
         let stdout = Pipe()
         let stderr = Pipe()
