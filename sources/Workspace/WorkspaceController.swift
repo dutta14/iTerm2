@@ -15,6 +15,7 @@ final class WorkspaceController: NSObject {
     @objc let headerView = WorkspaceHeaderView(frame: .zero)
     private weak var rootView: iTermRootTerminalView?
     private var syncTimer: Timer?
+    private var keyMonitor: Any?
     private var repoCache = [String: RepoInfo?]()
     private var pendingResolutions = Set<String>()
     private var activeNav: WorkspaceNavItem?
@@ -38,10 +39,24 @@ final class WorkspaceController: NSObject {
                                                selector: #selector(settingsDidChange),
                                                name: WorkspaceSettings.didChangeNotification,
                                                object: nil)
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self,
+                  event.window != nil,
+                  event.window === self.rootView?.window,
+                  event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
+                  event.charactersIgnoringModifiers == "b" else {
+                return event
+            }
+            self.toggleSidebar()
+            return nil
+        }
     }
 
     deinit {
         syncTimer?.invalidate()
+        if let keyMonitor {
+            NSEvent.removeMonitor(keyMonitor)
+        }
         NotificationCenter.default.removeObserver(self)
     }
 
