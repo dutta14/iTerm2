@@ -108,7 +108,7 @@ final class WorkspaceController: NSObject {
                                                   repoSource: info == nil ? .none : .resolved,
                                                   cwd: cwd,
                                                   branch: info?.branch,
-                                                  title: session.name ?? "",
+                                                  title: session.name,
                                                   status: .running,
                                                   updatedAt: Date(),
                                                   prNumber: nil,
@@ -170,9 +170,7 @@ final class WorkspaceController: NSObject {
 
     @objc func toggleSidebar() {
         WorkspaceSettings.sidebarVisible.toggle()
-        rootView?.setNeedsLayout()
-        rootView?.layoutSubtreeIfNeeded()
-        rootView?.window?.contentView?.needsLayout = true
+        rootView?.layoutSubviews()
         refresh()
     }
 
@@ -187,7 +185,7 @@ final class WorkspaceController: NSObject {
         iTermSessionLauncher.launchBookmark(profile as? [AnyHashable: Any],
                                             in: terminal,
                                             respectTabbingMode: false) { session in
-            if let command, let session {
+            if let command {
                 session.writeTask(command + "\n")
             }
         }
@@ -207,7 +205,7 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
     }
 
     func sidebarDidRequestSearch(_ sidebar: WorkspaceSidebarView) {
-        NSApp.sendAction(Selector(("openQuickly:")), to: nil, from: self)
+        NSApp.sendAction(NSSelectorFromString("openQuickly:"), to: nil, from: self)
     }
 
     func sidebar(_ sidebar: WorkspaceSidebarView, didSelectNav item: WorkspaceNavItem) {
@@ -223,7 +221,7 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
         if let guid = record.terminalGuid,
            let terminal,
            let session = terminal.allSessions().first(where: { $0.guid == guid }),
-           let tab = terminal.tabs().first(where: { $0.sessions().contains { ($0 as? PTYSession) === session } }) {
+           let tab = terminal.tabs().first(where: { $0.sessions().contains { $0 === session } }) {
             terminal.tabView().selectTabViewItem(tab.tabViewItem)
             refresh()
             return
@@ -237,7 +235,7 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
     }
 
     func sidebarDidRequestSettings(_ sidebar: WorkspaceSidebarView) {
-        NSApp.sendAction(#selector(iTermApplicationDelegate.showPrefWindow(_:)), to: nil, from: self)
+        NSApp.sendAction(NSSelectorFromString("showPrefWindow:"), to: nil, from: self)
     }
 
     private static func isUUID(_ text: String) -> Bool {
