@@ -1481515,6 +1481515,30 @@
         }
       }
     },
+    "Workspace.Header.ViewPR.Label" : {
+      "comment" : "Header button that opens the session's pull request in the inspector",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View PR"
+          }
+        }
+      }
+    },
+    "Workspace.Header.ViewPR.Tooltip" : {
+      "comment" : "Tooltip of the View PR button in the header",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show this pull request in the inspector"
+          }
+        }
+      }
+    },
     "Workspace.Inspector.A11y" : {
       "comment" : "Accessibility label of the inspector column",
       "extractionState" : "extracted_with_value",
@@ -1481899,6 +1481923,270 @@
         }
       }
     },
+    "Workspace.Inspector.PR.A11y" : {
+      "comment" : "Accessibility label of the inspector's pull request pane",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull request"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Check.Failing" : {
+      "comment" : "VoiceOver state of a check",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "failing"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Check.Neutral" : {
+      "comment" : "VoiceOver state of a check",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "skipped"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Check.Passing" : {
+      "comment" : "VoiceOver state of a check",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "passing"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Check.Running" : {
+      "comment" : "VoiceOver state of a check",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "running"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Checks.Open" : {
+      "comment" : "Tooltip of a check row in the inspector's pull request tab",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open this check on GitHub"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Files.Empty" : {
+      "comment" : "Shown in the inspector's pull request Files sub-tab when nothing changed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This pull request changes no files."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Loading" : {
+      "comment" : "Shown in the inspector's pull request tab while the pull request loads",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loading pull request…"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.None" : {
+      "comment" : "Shown in the inspector's pull request tab when the branch has no pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This branch has no pull request yet."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Refresh" : {
+      "comment" : "Tooltip of the refresh button in the inspector's pull request tab",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Refresh"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Searching" : {
+      "comment" : "Shown in the inspector's pull request tab while the pull request for the branch is looked up",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Looking for this branch’s pull request…"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Sections.A11y" : {
+      "comment" : "Accessibility label of the pull request sub-tabs",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull request sections"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.State.Closed" : {
+      "comment" : "State of a pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Closed"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.State.Draft" : {
+      "comment" : "State of a pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Draft"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.State.Merged" : {
+      "comment" : "State of a pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Merged"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.State.Open" : {
+      "comment" : "State of a pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Tab.Checks" : {
+      "comment" : "PR sub-tab",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Checks"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Tab.Description" : {
+      "comment" : "PR sub-tab",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Description"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Tab.Files" : {
+      "comment" : "PR sub-tab",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Files"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Tab.FilesCount" : {
+      "comment" : "PR sub-tab with the number of changed files",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Files (%lld)"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Tab.Reviews" : {
+      "comment" : "PR sub-tab",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reviews"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.PR.Unavailable" : {
+      "comment" : "Shown in the inspector's pull request tab when the session has no GitHub repository or branch",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open a session in a GitHub repository to see its pull request."
+          }
+        }
+      }
+    },
     "Workspace.Inspector.Restore" : {
       "comment" : "Tooltip of the inspector's expand control once the inspector is expanded",
       "extractionState" : "extracted_with_value",
@@ -1481943,6 +1482231,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Files"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.PR" : {
+      "comment" : "Inspector tab label. The placeholder is the pull request number.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "PR #%lld"
           }
         }
       }

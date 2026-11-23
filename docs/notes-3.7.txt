@@ -24,6 +24,11 @@ New Features:
   click one to jump, or press ⌥↑ and ⌥↓. The
   Workspace menu has the commands and Reset
   Layout.
+- The inspector also has a Pull Request tab for
+  the session’s branch, with Description, Files,
+  Reviews and Checks. A View PR button appears in
+  the header when the branch has a pull request;
+  ⇧⌘\ opens the tab.
 - Quick Look on a web link can use the built-in
   browser, so sites you sign in to stay signed
   in. It can also open when you hover over a
