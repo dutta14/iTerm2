@@ -196,4 +196,10 @@ extern const NSInteger iTermRootTerminalViewWindowNumberLabelWidth;
 // Re-reads the window name from the delegate and lays it out if it changed.
 - (void)updateWindowNameBesideTabs;
 
+// Workspace UI (opt-in). When enabled, the sidebar and header replace the tab bar and toolbelt.
+@property(nonatomic, readonly) BOOL workspaceEnabled;
+// Space the workspace chrome takes from the window, used for window size calculations.
+- (CGFloat)workspaceDecorationWidth;
+- (CGFloat)workspaceDecorationHeight;
+
 @end

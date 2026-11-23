@@ -137,6 +137,7 @@ typedef struct {
 // they are. (Animating layer-backed views' frames with their animators would
 // start from their layers' stale positions after a frame set just before.)
 @property(nonatomic) CGFloat stoplightHotboxSlideOffset;
+@property(nonatomic, strong) iTermWorkspaceController *workspaceController;
 
 @end
 
@@ -1714,7 +1715,34 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
     return [iTermLayoutCalculator toolbeltFrameWithInputs:inputs];
 }
 
+#pragma mark - Workspace UI
+
+- (BOOL)workspaceEnabled {
+    return [iTermWorkspaceController isEnabled];
+}
+
+- (iTermWorkspaceController *)workspaceControllerCreatingIfNeeded {
+    if (!self.workspaceEnabled) {
+        return nil;
+    }
+    if (!_workspaceController) {
+        _workspaceController = [[iTermWorkspaceController alloc] initWithRootView:self];
+    }
+    return _workspaceController;
+}
+
+- (CGFloat)workspaceDecorationWidth {
+    return [[self workspaceControllerCreatingIfNeeded] sidebarLayoutWidthForWindowWidth:CGFLOAT_MAX];
+}
+
+- (CGFloat)workspaceDecorationHeight {
+    return [self workspaceControllerCreatingIfNeeded].headerLayoutHeight;
+}
+
 - (void)setShouldShowToolbelt:(BOOL)shouldShowToolbelt {
+    if (self.workspaceEnabled) {
+        shouldShowToolbelt = NO;
+    }
     if (shouldShowToolbelt == _shouldShowToolbelt) {
         return;
     }
@@ -1761,6 +1789,9 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
 }
 
 - (BOOL)tabBarShouldBeVisibleWithAdditionalTabs:(int)numberOfAdditionalTabs {
+    if (self.workspaceEnabled) {
+        return NO;
+    }
     if (([_delegate anyFullScreen] || [_delegate enteringLionFullscreen]) &&
         ![iTermPreferences boolForKey:kPreferenceKeyShowFullscreenTabBar]) {
         DLog(@"Tabbar should not be visible because in full screen");
@@ -1911,6 +1942,18 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
 
     // Title in tab bar
     inputs.drawWindowTitleInPlaceOfTabBar = [self.delegate rootTerminalViewShouldDrawWindowTitleInPlaceOfTabBar];
+
+    iTermWorkspaceController *workspace = [self workspaceControllerCreatingIfNeeded];
+    if (workspace) {
+        inputs.workspaceEnabled = YES;
+        inputs.workspaceSidebarWidth = [workspace sidebarLayoutWidthForWindowWidth:inputs.contentViewWidth];
+        inputs.workspaceHeaderHeight = workspace.headerLayoutHeight;
+        inputs.workspaceInspectorWidth = 0;
+        inputs.shouldShowToolbelt = NO;
+        inputs.toolbeltWidth = 0;
+        inputs.tabBarVisible = NO;
+        inputs.drawWindowTitleInPlaceOfTabBar = NO;
+    }
 
     return inputs;
 }
@@ -2316,6 +2359,11 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
 
     if (showToolbeltInline) {
         [self updateToolbeltFrameForWindow:thisWindow];
+    }
+
+    if (self.workspaceEnabled) {
+        iTermLayoutInputs workspaceInputs = [self layoutInputsForWindow:thisWindow];
+        [[self workspaceControllerCreatingIfNeeded] applyOutputs:[iTermLayoutCalculator calculateLayoutWithInputs:workspaceInputs]];
     }
 
     DLog(@"repositionWidgets - redraw view");

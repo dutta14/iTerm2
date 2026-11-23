@@ -116,12 +116,20 @@ iTermWindowType iTermUnthemedWindowType(iTermWindowType windowType) {
     }
 }
 
+// The workspace UI draws its own chrome in a full-size content view, which is what compact windows are.
+static iTermPreferencesTabStyle iTermEffectiveTabStyleForWindowType(void) {
+    if ([iTermAdvancedSettingsModel workspaceUI]) {
+        return TAB_STYLE_COMPACT;
+    }
+    return (iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle];
+}
+
 // NOTE: If you change this also update iTermUnthemedWindowType
 iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
     switch (windowType) {
         case WINDOW_TYPE_COMPACT:
         case WINDOW_TYPE_NORMAL:
-            switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
+            switch (iTermEffectiveTabStyleForWindowType()) {
                 case TAB_STYLE_COMPACT:
                 case TAB_STYLE_MINIMAL:
                     return WINDOW_TYPE_COMPACT;
@@ -138,7 +146,7 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 
         case WINDOW_TYPE_COMPACT_MAXIMIZED:
         case WINDOW_TYPE_MAXIMIZED:
-            switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
+            switch (iTermEffectiveTabStyleForWindowType()) {
                 case TAB_STYLE_COMPACT:
                 case TAB_STYLE_MINIMAL:
                     return WINDOW_TYPE_COMPACT_MAXIMIZED;
@@ -155,7 +163,7 @@ iTermWindowType iTermThemedWindowType(iTermWindowType windowType) {
 
         case WINDOW_TYPE_COMPACT_CENTERED:
         case WINDOW_TYPE_CENTERED:
-            switch ((iTermPreferencesTabStyle)[iTermPreferences intForKey:kPreferenceKeyTabStyle]) {
+            switch (iTermEffectiveTabStyleForWindowType()) {
                 case TAB_STYLE_COMPACT:
                 case TAB_STYLE_MINIMAL:
                     return WINDOW_TYPE_COMPACT_CENTERED;

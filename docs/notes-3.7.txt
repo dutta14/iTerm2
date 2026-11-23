@@ -1,6 +1,12 @@
 Version TBD (unreleased; built off master)
 
 New Features:
+- An experimental workspace layout replaces the
+  tab bar with a sidebar of sessions grouped by
+  repository, plus a header showing the current
+  repository and branch. Turn it on in Settings >
+  Advanced > search for “workspace window
+  layout”.
 - Quick Look on a web link can use the built-in
   browser, so sites you sign in to stay signed
   in. It can also open when you hover over a

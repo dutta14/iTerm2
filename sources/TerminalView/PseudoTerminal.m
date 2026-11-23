@@ -1227,6 +1227,9 @@ ITERM_WEAKLY_REFERENCEABLE
 }
 
 - (BOOL)rootTerminalViewShouldDrawWindowTitleInPlaceOfTabBar {
+    if (_contentView.workspaceEnabled) {
+        return NO;
+    }
     if (togglingLionFullScreen_) {
         return NO;
     }
@@ -15063,6 +15066,9 @@ static BOOL iTermApproximatelyEqualRects(NSRect lhs, NSRect rhs, double epsilon)
     } else if ([self rootTerminalViewShouldDrawWindowTitleInPlaceOfTabBar]) {
         decorationSize.height += [self rootTerminalViewHeightOfTabBar:_contentView];
     }
+
+    decorationSize.width += [_contentView workspaceDecorationWidth];
+    decorationSize.height += [_contentView workspaceDecorationHeight];
 
     if (self.divisionViewShouldBeVisible) {
         ++decorationSize.height;
