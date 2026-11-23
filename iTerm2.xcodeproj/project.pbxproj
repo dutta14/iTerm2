@@ -4959,6 +4959,7 @@
 		CD52A87B950DA41A9490179B /* WorkspaceInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3E8DC7A24AD90F03B932E5 /* WorkspaceInspectorView.swift */; };
 		A9463DD93A75E6CB0A3436BB /* WorkspaceMinimapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E88B830C9F8B925B34F9EE /* WorkspaceMinimapView.swift */; };
 		0CE5435264174C7BDE56FBD5 /* WorkspaceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C81C81B46310BEF82F6FD49 /* WorkspaceMenu.swift */; };
+		DD51EAF2D957B3B757A48613 /* InspectorPullRequestPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D744D9F9489B0FC8FAF3F6 /* InspectorPullRequestPane.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -9372,6 +9373,7 @@
 		5E3E8DC7A24AD90F03B932E5 /* WorkspaceInspectorView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceInspectorView.swift; sourceTree = "<group>"; };
 		C0E88B830C9F8B925B34F9EE /* WorkspaceMinimapView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceMinimapView.swift; sourceTree = "<group>"; };
 		2C81C81B46310BEF82F6FD49 /* WorkspaceMenu.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceMenu.swift; sourceTree = "<group>"; };
+		13D744D9F9489B0FC8FAF3F6 /* InspectorPullRequestPane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InspectorPullRequestPane.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -15622,6 +15624,7 @@
 				2ACAB6126DF411B2F3B0AE0C /* WorkspaceSidebarView.swift */,
 				470C354A4C4A6FE2030F5A0A /* WorkspaceHeaderView.swift */,
 				55E160F09DB0C504DE60450E /* WorkspaceController.swift */,
+				13D744D9F9489B0FC8FAF3F6 /* InspectorPullRequestPane.swift */,
 				B5686AC7051DFE3DC417BD49 /* WorkspaceInspectorModels.swift */,
 				D096431D101B40F9016EA7BE /* InspectorGit.swift */,
 				9AB361814B1C65E5066CDA4A /* InspectorTerminalPane.swift */,
@@ -20949,6 +20952,7 @@
 				A324331927F7D96DBFCCE40F /* WorkspaceSessionStore.swift in Sources */,
 				CA95BA1BC568F6D34ACE9FE8 /* WorkspaceSidebarView.swift in Sources */,
 				D7C8561E79DA54A01EBC9E73 /* WorkspaceHeaderView.swift in Sources */,
+				DD51EAF2D957B3B757A48613 /* InspectorPullRequestPane.swift in Sources */,
 				F29C1948FC20426780452603 /* WorkspaceInspectorModels.swift in Sources */,
 				9BC40E6B5E8F86B5EA145B5F /* InspectorGit.swift in Sources */,
 				A93496162185C870B2441FB4 /* InspectorTerminalPane.swift in Sources */,

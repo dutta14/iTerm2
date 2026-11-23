@@ -25,6 +25,9 @@ final class WorkspaceController: NSObject {
     private let minimapView = WorkspaceMinimapView(frame: .zero)
     private var inspectorExpanded = false
     private var lastInspectorContext: String?
+    private var branchPullRequests = [String: (date: Date, match: PullRequestBranchMatch?, failed: Bool)]()
+    private var pendingPullRequestLookups = Set<String>()
+    private static let pullRequestCacheSeconds: TimeInterval = 60
     private var minimapTimer: Timer?
     private var minimapPrompts = [MinimapPrompt]()
     private var minimapSessionGuid: String?
@@ -47,6 +50,7 @@ final class WorkspaceController: NSObject {
         headerView.onToggleSidebar = { [weak self] in self?.toggleSidebar() }
         headerView.onBack = { [weak self] in self?.closeFullWindowView() }
         headerView.onToggleInspector = { [weak self] in self?.toggleInspector() }
+        headerView.onViewPR = { [weak self] in self?.viewPullRequest() }
         minimapView.onJump = { [weak self] index in self?.jumpToPrompt(at: index) }
         minimapView.isHidden = true
         Self.controllers.add(self)
@@ -93,6 +97,10 @@ final class WorkspaceController: NSObject {
             showInspectorTab(.changes)
             return true
         }
+        if flags == [.command, .shift], key == "|" || key == "\\" {
+            showInspectorTab(.pullRequest)
+            return true
+        }
         if flags == .control, key == "`" {
             toggleTerminalTab()
             return true
@@ -101,7 +109,8 @@ final class WorkspaceController: NSObject {
             focusInspector()
             return true
         }
-        if flags == .option, event.keyCode == 125 || event.keyCode == 126, minimapView.isHidden == false {
+        let arrowFlags = event.modifierFlags.intersection([.command, .option, .control, .shift])
+        if arrowFlags == .option, event.keyCode == 125 || event.keyCode == 126, minimapView.isHidden == false {
             stepPrompt(forward: event.keyCode == 125)
             return true
         }
@@ -241,6 +250,7 @@ final class WorkspaceController: NSObject {
         for session in terminal.allSessions() {
             let cwd = session.currentLocalWorkingDirectory
             let info = cwd.flatMap { resolveRepo(directory: $0) }
+            let prNumber = info.flatMap { pullRequestMatch(repo: $0.repo, branch: $0.branch)?.number }
             records.append(WorkspaceSessionRecord(id: "live-" + session.guid,
                                                   copilotSessionId: nil,
                                                   imported: false,
@@ -251,7 +261,7 @@ final class WorkspaceController: NSObject {
                                                   title: session.name,
                                                   status: .running,
                                                   updatedAt: Date(),
-                                                  prNumber: nil,
+                                                  prNumber: prNumber,
                                                   issueNumber: nil,
                                                   terminalGuid: session.guid))
         }
@@ -309,7 +319,8 @@ final class WorkspaceController: NSObject {
                                                                title: title,
                                                                viewName: host?.viewName,
                                                                inspectorVisible: WorkspaceSettings.inspectorVisible,
-                                                               inspectorAvailable: host?.superview == nil),
+                                                               inspectorAvailable: host?.superview == nil,
+                                                               prNumber: record?.prNumber),
                           sidebarCollapsed: collapsed)
     }
 
@@ -333,6 +344,50 @@ final class WorkspaceController: NSObject {
             inspectorView.setContext(sessionGuid: session?.guid, directory: directory)
         }
         inspectorView.pruneTerminals(keeping: guids)
+        inspectorView.setPullRequestState(pullRequestState(for: session))
+    }
+
+    private func pullRequestState(for session: PTYSession?) -> InspectorPullRequestState {
+        guard let session,
+              let record = store.liveRecords.first(where: { $0.terminalGuid == session.guid }),
+              let repo = record.repo, GitHubClient.isValid(repo: repo),
+              let branch = record.branch, !branch.isEmpty else {
+            return .unavailable
+        }
+        let key = "\(repo)|\(branch)"
+        if let cached = branchPullRequests[key] {
+            if cached.failed { return .unavailable }
+            return cached.match.map { .found(repo: repo, number: $0.number) } ?? .none
+        }
+        return .searching
+    }
+
+    /// Looks up the pull request for a branch at most once a minute. The answer shows up on the next refresh.
+    private func pullRequestMatch(repo: String, branch: String?) -> PullRequestBranchMatch? {
+        guard let branch, !branch.isEmpty, GitHubClient.isValid(repo: repo) else { return nil }
+        let key = "\(repo)|\(branch)"
+        let cached = branchPullRequests[key]
+        let stale = cached.map { Date().timeIntervalSince($0.date) > Self.pullRequestCacheSeconds } ?? true
+        if stale, pendingPullRequestLookups.insert(key).inserted {
+            GitHubClient.shared.pullRequests(forBranch: branch, repo: repo) { [weak self] result in
+                guard let self else { return }
+                self.pendingPullRequestLookups.remove(key)
+                switch result {
+                case .success(let matches):
+                    self.branchPullRequests[key] = (Date(), PullRequestBranchPicker.pick(from: matches), false)
+                case .failure:
+                    // Keep any earlier answer and retry after the cache window.
+                    self.branchPullRequests[key] = (Date(), cached?.match, cached == nil)
+                }
+                self.refresh()
+            }
+        }
+        return cached?.match
+    }
+
+    private func viewPullRequest() {
+        if host?.superview != nil { return }
+        showInspectorTab(.pullRequest)
     }
 
     @objc func toggleInspector() {

@@ -15,11 +15,13 @@ final class WorkspaceHeaderView: NSView {
         var viewName: String?
         var inspectorVisible = false
         var inspectorAvailable = true
+        var prNumber: Int?
     }
 
     var onToggleSidebar: (() -> Void)?
     var onBack: (() -> Void)?
     var onToggleInspector: (() -> Void)?
+    var onViewPR: (() -> Void)?
 
     private let repoLabel = NSTextField(labelWithString: "")
     private let slashLabel = NSTextField(labelWithString: "/")
@@ -30,6 +32,7 @@ final class WorkspaceHeaderView: NSView {
     private let reopenButton = NSButton()
     private let backButton = NSButton()
     private let inspectorButton = NSButton()
+    private let viewPRButton = NSButton()
     private let bottomBorder = NSView()
     private var content = Content(repo: nil, branch: nil, title: "")
     private var sidebarCollapsed = false
@@ -93,9 +96,17 @@ final class WorkspaceHeaderView: NSView {
         inspectorButton.contentTintColor = WorkspaceColor.textSecondary
         inspectorButton.target = self
         inspectorButton.action = #selector(inspectorClicked)
+        viewPRButton.isBordered = false
+        viewPRButton.attributedTitle = NSAttributedString(string: String(localized: "Workspace.Header.ViewPR.Label", defaultValue: "View PR", comment: "Header button that opens the session's pull request in the inspector"),
+                                                          attributes: [.font: NSFont.systemFont(ofSize: 12.5, weight: .medium), .foregroundColor: WorkspaceColor.accentText])
+        viewPRButton.toolTip = String(localized: "Workspace.Header.ViewPR.Tooltip", defaultValue: "Show this pull request in the inspector", comment: "Tooltip of the View PR button in the header")
+        viewPRButton.setAccessibilityLabel(viewPRButton.toolTip)
+        viewPRButton.target = self
+        viewPRButton.action = #selector(viewPRClicked)
+        viewPRButton.isHidden = true
         bottomBorder.wantsLayer = true
 
-        [repoLabel, slashLabel, pill, titleLabel, reopenButton, backButton, inspectorButton, bottomBorder].forEach(addSubview)
+        [repoLabel, slashLabel, pill, titleLabel, reopenButton, backButton, inspectorButton, viewPRButton, bottomBorder].forEach(addSubview)
         updateInspectorButton()
     }
 
@@ -115,6 +126,7 @@ final class WorkspaceHeaderView: NSView {
     @objc private func reopenClicked() { onToggleSidebar?() }
     @objc private func backClicked() { onBack?() }
     @objc private func inspectorClicked() { onToggleInspector?() }
+    @objc private func viewPRClicked() { onViewPR?() }
 
     private func updateInspectorButton() {
         inspectorButton.isHidden = content.viewName != nil
@@ -165,7 +177,13 @@ final class WorkspaceHeaderView: NSView {
         }
 
         inspectorButton.frame = NSRect(x: bounds.width - 40, y: 8, width: 28, height: 28)
-        let trailing = bounds.width - 48
+        var trailing = bounds.width - 48
+        viewPRButton.isHidden = content.prNumber == nil
+        if content.prNumber != nil {
+            let width = ceil(viewPRButton.intrinsicContentSize.width)
+            viewPRButton.frame = NSRect(x: trailing - width, y: 8, width: width, height: 28)
+            trailing -= width + 12
+        }
         let repoText = content.repo ?? ""
         repoLabel.isHidden = repoText.isEmpty
         slashLabel.isHidden = repoText.isEmpty

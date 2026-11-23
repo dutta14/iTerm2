@@ -84,6 +84,12 @@ private final class InspectorTabButton: NSView {
         onClose?(kind)
     }
 
+    func setTitle(_ title: String) {
+        titleLabel.stringValue = title
+        setAccessibilityLabel(title)
+        needsLayout = true
+    }
+
     override func accessibilityPerformPress() -> Bool {
         onSelect?(kind)
         return true
@@ -188,6 +194,8 @@ final class WorkspaceInspectorView: NSView {
     private let emptyLabel = InspectorMessageLabel(frame: .zero)
     private let changesPane = InspectorChangesPane(frame: .zero)
     private let filesPane = InspectorFilesPane(frame: .zero)
+    private let pullRequestPane = InspectorPullRequestPane(frame: .zero)
+    private var pullRequestState = InspectorPullRequestState.unavailable
     private var terminalPanes = [String: InspectorTerminalPane]()
     private var tabButtons = [InspectorTabButton]()
     private(set) var openKinds: [InspectorTabKind]
@@ -239,11 +247,12 @@ final class WorkspaceInspectorView: NSView {
         handle.onEnd = { [weak self] in self?.onResizeEnd?() }
         changesPane.isHidden = true
         filesPane.isHidden = true
+        pullRequestPane.isHidden = true
         emptyLabel.isHidden = true
         emptyLabel.text = String(localized: "Workspace.Inspector.Empty",
                                  defaultValue: "No tabs open. Add one to see changes, a terminal or files.",
                                  comment: "Shown in the inspector when every tab has been closed")
-        [changesPane, filesPane, emptyLabel, tabStrip, addButton, expandButton, stripBorder, leadingBorder, handle].forEach(addSubview)
+        [changesPane, filesPane, pullRequestPane, emptyLabel, tabStrip, addButton, expandButton, stripBorder, leadingBorder, handle].forEach(addSubview)
         rebuildTabs()
         showActivePane()
     }
@@ -291,6 +300,23 @@ final class WorkspaceInspectorView: NSView {
     }
 
     /// Ends the shells of sessions that no longer exist.
+    func setPullRequestState(_ state: InspectorPullRequestState) {
+        guard state != pullRequestState else { return }
+        pullRequestState = state
+        pullRequestPane.setState(state)
+        updatePullRequestTabTitle()
+    }
+
+    private func updatePullRequestTabTitle() {
+        guard let button = tabButtons.first(where: { $0.kind == .pullRequest }) else { return }
+        if case .found(_, let number) = pullRequestState {
+            button.setTitle(String(localized: "Workspace.Inspector.Tab.PR", defaultValue: "PR #\(number)", comment: "Inspector tab label. The placeholder is the pull request number."))
+        } else {
+            button.setTitle(InspectorTabButton.title(for: .pullRequest))
+        }
+        needsLayout = true
+    }
+
     func pruneTerminals(keeping guids: Set<String>) {
         for (guid, pane) in terminalPanes where !guids.contains(guid) {
             pane.shutDown()
@@ -340,6 +366,7 @@ final class WorkspaceInspectorView: NSView {
         switch activeKind {
         case .changes?: window.makeFirstResponder(changesPane.focusView)
         case .files?: window.makeFirstResponder(filesPane.focusView)
+        case .pullRequest?: window.makeFirstResponder(pullRequestPane.focusView)
         case .terminal?:
             if let pane = terminalPane(createIfNeeded: true) { window.makeFirstResponder(pane.focusView) }
         default: break
@@ -408,6 +435,7 @@ final class WorkspaceInspectorView: NSView {
             tabDocument.addSubview(button)
             return button
         }
+        updatePullRequestTabTitle()
         updateTabSelection()
         needsLayout = true
     }
@@ -426,6 +454,8 @@ final class WorkspaceInspectorView: NSView {
         emptyLabel.isHidden = activeKind != nil
         changesPane.isHidden = activeKind != .changes
         filesPane.isHidden = activeKind != .files
+        pullRequestPane.isHidden = activeKind != .pullRequest
+        pullRequestPane.setVisibleInInspector(activeKind == .pullRequest && !isHiddenOrHasHiddenAncestor)
         changesPane.setVisibleInInspector(activeKind == .changes && !isHiddenOrHasHiddenAncestor)
         filesPane.setVisibleInInspector(activeKind == .files && !isHiddenOrHasHiddenAncestor)
         for (guid, pane) in terminalPanes {
@@ -537,6 +567,7 @@ final class WorkspaceInspectorView: NSView {
         let body = NSRect(x: 1, y: strip, width: max(0, bounds.width - 1), height: max(0, bounds.height - strip))
         changesPane.frame = body
         filesPane.frame = body
+        pullRequestPane.frame = body
         emptyLabel.frame = body
         terminalPanes.values.forEach { $0.frame = body }
     }
