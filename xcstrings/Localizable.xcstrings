@@ -1480999,6 +1480999,1590 @@
         }
       }
     },
+    "Workspace.Automations.Action.Cancel" : {
+      "comment" : "Row button that cancels a running workflow",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Action.Rerun" : {
+      "comment" : "Row button that re-runs a workflow",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Re-run"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Action.ViewLog" : {
+      "comment" : "Row button that shows the failed log of a workflow run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View log"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Cadence" : {
+      "comment" : "Footer note describing how often runs refresh while a run is in progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Updates every 10 seconds while open"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Cancel.Body" : {
+      "comment" : "Body of the confirmation before cancelling a workflow run. Placeholders: run name, repository.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ in %2$@ will be cancelled. You can re-run it later."
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Cancel.Confirm" : {
+      "comment" : "Button that cancels the run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel run"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Cancel.Dismiss" : {
+      "comment" : "Button that leaves the run going",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Keep running"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Cancel.Title" : {
+      "comment" : "Title of the confirmation before cancelling a workflow run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel this run?"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.NoFailed.Body" : {
+      "comment" : "Empty state body. The placeholder is a count.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "None of the latest %lld runs per repo failed."
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.NoFailed.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No failed runs"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.NoRepos.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start a session in a repo or open a pull request and its runs appear here."
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.NoRepos.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No repos to watch"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.NoRunning.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Running workflows appear here while they run."
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.NoRunning.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nothing running"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.None.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Runs from GitHub Actions appear here once your repos have run a workflow."
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Empty.None.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No workflow runs yet"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Filter.All" : {
+      "comment" : "Filter showing every workflow run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All runs"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Filter.Failed" : {
+      "comment" : "Filter showing failed runs",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Filter.Running" : {
+      "comment" : "Filter showing runs in progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Running"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Loading.A11y" : {
+      "comment" : "Accessibility label while workflow runs load",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loading workflow runs"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Log.Title" : {
+      "comment" : "Title of the sheet that shows a workflow run's log",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Run log"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Meta.Finished" : {
+      "comment" : "Row details for a finished workflow: repository, branch, status, duration, time since finish",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · %3$@ in %4$@ · %5$@"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Meta.Running" : {
+      "comment" : "Row details for a running workflow: repository, branch, time since start",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · running %3$@"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.State.Cancelled" : {
+      "comment" : "Status of a cancelled workflow run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancelled"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.State.Cancelling" : {
+      "comment" : "Shown on a row while its run is being cancelled",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancelling…"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.State.Rerunning" : {
+      "comment" : "Shown on a row while its run is being started again",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Re-running…"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Status.Failed" : {
+      "comment" : "Status of a failed workflow run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Failed"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Status.Queued" : {
+      "comment" : "Status of a workflow run waiting to start",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Queued"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Status.Running" : {
+      "comment" : "Status of a workflow run in progress",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Running"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Status.Succeeded" : {
+      "comment" : "Status of a successful workflow run",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Succeeded"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Status.Waiting" : {
+      "comment" : "Status of a workflow run waiting for approval",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Waiting"
+          }
+        }
+      }
+    },
+    "Workspace.Automations.Title" : {
+      "comment" : "Title of the automations view",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Automations"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.AllRepos" : {
+      "comment" : "Filter option that shows every repository",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All repos"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.Repo" : {
+      "comment" : "Accessibility label of the repository filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Repository"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.State" : {
+      "comment" : "Accessibility label of the state filter",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "State"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.State.All" : {
+      "comment" : "State filter option",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.State.Closed" : {
+      "comment" : "State filter option",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Closed"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.State.Merged" : {
+      "comment" : "State filter option",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Merged"
+          }
+        }
+      }
+    },
+    "Workspace.Filter.State.Open" : {
+      "comment" : "State filter option",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open"
+          }
+        }
+      }
+    },
+    "Workspace.Folder.Choose" : {
+      "comment" : "Button in the panel that asks for the local clone of a repository",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose folder…"
+          }
+        }
+      }
+    },
+    "Workspace.Folder.Message" : {
+      "comment" : "Message in the panel that asks for the local clone of a repository. The placeholder is owner/name.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose your local clone of %@."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Action.Start" : {
+      "comment" : "Row button that starts a Copilot session to fix an issue. The ellipsis means a confirmation sheet follows.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start session on this issue…"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Disabled.Closed" : {
+      "comment" : "Tooltip on the disabled start button of a closed issue",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Closed issues can’t start a session. Reopen it on GitHub first."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.Assigned.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Issues assigned to you appear here."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.Assigned.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No open issues assigned to you"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.Created.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Issues you open appear here."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.Created.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You have no open issues"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.Mentioned.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Issues that mention you appear here."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.Mentioned.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No mentions"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.NoMatch.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Try a different repo or state."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Empty.NoMatch.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No issues match these filters"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Loading.A11y" : {
+      "comment" : "Accessibility label while issues load",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loading issues"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Meta.Closed" : {
+      "comment" : "Row details for a closed issue: repository, time",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · closed %2$@"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Meta.Open" : {
+      "comment" : "Row details for an open issue: repository, time",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · opened %2$@"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Segment.Assigned" : {
+      "comment" : "Segment showing issues assigned to the user",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Assigned to me"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Segment.Created" : {
+      "comment" : "Segment showing issues the user opened",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Created by me"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Segment.Mentioned" : {
+      "comment" : "Segment showing issues that mention the user",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mentioned"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.BranchExists" : {
+      "comment" : "Shown when the suggested branch name is taken. The placeholder is a branch name.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Branch %@ already exists in this repo."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.BranchLabel" : {
+      "comment" : "Label of the field holding the new branch name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New branch name"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.CreateBranch" : {
+      "comment" : "Button that creates the branch and starts the session",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Create branch and start"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.CreateFailed" : {
+      "comment" : "Shown when creating the branch fails. The placeholder is the branch name and the reason.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn’t create branch %@."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.DirtyNote" : {
+      "comment" : "Shown when the working tree has uncommitted changes",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You have uncommitted changes. They carry over to the new branch."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.Message" : {
+      "comment" : "Body of the sheet that starts a session on an issue. The placeholder is a folder path.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copilot CLI starts in %@ with a prompt to fix this issue. Pick the branch it should work on."
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.StartCurrent" : {
+      "comment" : "Button that starts the session without switching branches",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start on current branch"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.Title" : {
+      "comment" : "Title of the sheet that starts a session on an issue. The placeholder is the issue number.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start a session on issue #%lld"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Sheet.UseExisting" : {
+      "comment" : "Button that switches to the branch that already exists",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Use existing branch"
+          }
+        }
+      }
+    },
+    "Workspace.Issues.Title" : {
+      "comment" : "Title of the issues view",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Issues"
+          }
+        }
+      }
+    },
+    "Workspace.List.Footer.RefreshTooltip" : {
+      "comment" : "Tooltip of the button that reloads a list from GitHub",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Refresh"
+          }
+        }
+      }
+    },
+    "Workspace.List.Footer.Showing" : {
+      "comment" : "Footer when a list is truncated. The placeholder is a count.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Showing the first %lld"
+          }
+        }
+      }
+    },
+    "Workspace.List.Footer.Updated" : {
+      "comment" : "Footer of a list showing when it was last refreshed. The placeholder is a relative time.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Updated %@"
+          }
+        }
+      }
+    },
+    "Workspace.Log.Close" : {
+      "comment" : "Button that closes the run log sheet",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.CheckoutFailed" : {
+      "comment" : "Body of the alert shown when checking out a pull request branch fails. The placeholder is the pull request number.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn’t check out the branch for PR #%lld. You can start the session without switching branches."
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.CheckoutFailed.Title" : {
+      "comment" : "Title of the alert shown when checking out a pull request branch fails",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn’t check out the branch"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Disabled.Closed" : {
+      "comment" : "Tooltip on the disabled start button of a closed pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Closed pull requests can’t start a session. Reopen it on GitHub first."
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Disabled.Merged" : {
+      "comment" : "Tooltip on the disabled start button of a merged pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Merged pull requests can’t start a session."
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Empty.Checks" : {
+      "comment" : "Shown when a pull request has no checks",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No checks have run."
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Empty.Description" : {
+      "comment" : "Shown when a pull request has no description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No description provided."
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Empty.Reviews" : {
+      "comment" : "Shown when a pull request has no reviews",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No reviews yet."
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Meta" : {
+      "comment" : "Details line of a pull request. Placeholders: author, repository, date.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Opened by %1$@ in %2$@ on %3$@"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.OpenOnGitHub" : {
+      "comment" : "Opens the item in the browser",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open on GitHub"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Review.Approved" : {
+      "comment" : "Review state",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Approved"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Review.ChangesRequested" : {
+      "comment" : "Review state",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Changes requested"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Review.Commented" : {
+      "comment" : "Review state",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Commented"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Section.Assignees" : {
+      "comment" : "Section heading in pull request details",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Assignees"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Section.Checks" : {
+      "comment" : "Section heading in pull request details",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Checks"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Section.Description" : {
+      "comment" : "Section heading in pull request details",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Description"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Section.Labels" : {
+      "comment" : "Section heading in pull request details",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Labels"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Section.Reviewers" : {
+      "comment" : "Section heading in pull request details",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reviewers"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.StartWithoutSwitching" : {
+      "comment" : "Button that starts the session anyway",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start without switching branch"
+          }
+        }
+      }
+    },
+    "Workspace.PRDetail.Truncated" : {
+      "comment" : "Shown under a pull request description that was shortened",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This description is long, so it’s cut here. Read the rest on GitHub."
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Action.Start" : {
+      "comment" : "Row button that starts a Copilot session on a pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start session on this PR"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Back" : {
+      "comment" : "Link at the top of pull request details that returns to the list",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Back.A11y" : {
+      "comment" : "Accessibility label of the link that returns to the pull request list",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Back to pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Draft" : {
+      "comment" : "Badge on a draft pull request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Draft"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.Created.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull requests you open appear here."
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.Created.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No open pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.Mentioned.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull requests that mention you appear here."
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.Mentioned.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No mentions"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.NoMatch.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Try a different repo or state."
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.NoMatch.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No pull requests match these filters"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.Review.Body" : {
+      "comment" : "Empty state body",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "When someone asks for your review, it appears here."
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Empty.Review.Title" : {
+      "comment" : "Empty state title",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Nothing to review"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Loading.A11y" : {
+      "comment" : "Accessibility label while pull requests load",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loading pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Meta.Closed" : {
+      "comment" : "Row details for a closed pull request: repository, author, time",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · closed %3$@"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Meta.Merged" : {
+      "comment" : "Row details for a merged pull request: repository, author, time",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · merged %3$@"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Meta.NoBranch" : {
+      "comment" : "Row details for an open pull request: repository, time",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · updated %2$@"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Row.OpenDetails" : {
+      "comment" : "Context menu item that opens pull request details",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open details"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Segment.Created" : {
+      "comment" : "Segment showing pull requests the user opened",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Created by me"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Segment.Mentioned" : {
+      "comment" : "Segment showing pull requests that mention the user",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mentioned"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Segment.ReviewRequested" : {
+      "comment" : "Segment showing pull requests awaiting the user's review",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review requested"
+          }
+        }
+      }
+    },
+    "Workspace.PullRequests.Title" : {
+      "comment" : "Title of the pull requests view",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.CheckAgain" : {
+      "comment" : "Button that re-checks whether the GitHub command line tool is ready",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Check again"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.Copy" : {
+      "comment" : "Button that copies a command to the clipboard",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copy"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.CouldntRefresh" : {
+      "comment" : "Shown above a list when the latest refresh failed and older results are displayed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn’t refresh. Showing older data."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Auth.Body" : {
+      "comment" : "Explains an authorization failure. The placeholder is the resource or message from GitHub.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub blocked access to %@. Refresh your sign-in so `gh` can reach it, then check again."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Auth.Command" : {
+      "comment" : "Shell command that refreshes GitHub CLI authorization. Do not translate.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "gh auth refresh"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Auth.Heading" : {
+      "comment" : "Heading shown when GitHub denies access to a resource",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub CLI needs more access"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Login.Body" : {
+      "comment" : "Explains how to sign in to GitHub CLI",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "`gh` isn’t signed in yet. Run this command in any terminal, then check again."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Login.Command" : {
+      "comment" : "Shell command that signs in to GitHub CLI. Do not translate.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "gh auth login"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Login.Heading" : {
+      "comment" : "Heading shown when gh is not signed in",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sign in to GitHub CLI"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Missing.Body" : {
+      "comment" : "Explains why GitHub CLI is needed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dev Terminal uses GitHub CLI (`gh`) for pull requests, issues and runs. Install it, then check again."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Missing.Command" : {
+      "comment" : "Shell command that installs GitHub CLI. Do not translate.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "brew install gh"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.GH.Missing.Heading" : {
+      "comment" : "Heading shown when the gh command is not installed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub CLI isn’t installed"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.Generic.Body" : {
+      "comment" : "Shows the error text from GitHub CLI. The placeholder is that text.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Here’s what it said: %@"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.Generic.Heading" : {
+      "comment" : "Heading shown when gh fails for an unrecognized reason",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub CLI returned an error"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.Offline.Body" : {
+      "comment" : "Explains what happens while offline",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dev Terminal tries again when you’re back online. Cached results stay visible."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.Offline.Heading" : {
+      "comment" : "Heading shown when there is no network connection to GitHub",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub can’t be reached"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.RateLimit.Body.NoReset" : {
+      "comment" : "Explains a GitHub rate limit when the reset time is unknown",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Requests resume in about 5 minutes. Cached results stay visible until then."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.RateLimit.Body.Reset" : {
+      "comment" : "Explains a GitHub rate limit. The placeholder is a time of day.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Requests resume at %@. Cached results stay visible until then."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.RateLimit.Heading" : {
+      "comment" : "Heading shown when GitHub is rate limiting requests",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub rate limit reached"
+          }
+        }
+      }
+    },
+    "Workspace.Setup.Timeout" : {
+      "comment" : "Shown when a GitHub request times out",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GitHub took too long to respond. Try again in a moment."
+          }
+        }
+      }
+    },
+    "Workspace.Setup.TryAgain" : {
+      "comment" : "Button that retries a failed GitHub request",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
     "Workspace.Sidebar.A11y.Label" : {
       "comment" : "Accessibility label of the sidebar region.",
       "extractionState" : "extracted_with_value",
@@ -1481211,6 +1482795,42 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show sidebar (⌘B)"
+          }
+        }
+      }
+    },
+    "Workspace.Time.JustNow" : {
+      "comment" : "Relative time for something that happened less than a minute ago",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "just now"
+          }
+        }
+      }
+    },
+    "Workspace.View.BackToSession" : {
+      "comment" : "Button in the header of a full-window view that returns to the terminal session",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Back to session"
+          }
+        }
+      }
+    },
+    "Workspace.View.BackToSession.Tooltip" : {
+      "comment" : "Tooltip of the button that returns from a full-window view to the terminal session. Esc is the Escape key.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Back to session (Esc)"
           }
         }
       }
