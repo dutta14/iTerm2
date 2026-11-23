@@ -16,6 +16,7 @@ final class WorkspaceHeaderView: NSView {
     }
 
     var onToggleSidebar: (() -> Void)?
+    var onBack: (() -> Void)?
 
     private let repoLabel = NSTextField(labelWithString: "")
     private let slashLabel = NSTextField(labelWithString: "/")
@@ -24,6 +25,7 @@ final class WorkspaceHeaderView: NSView {
     private let pillLabel = NSTextField(labelWithString: "")
     private let titleLabel = NSTextField(labelWithString: "")
     private let reopenButton = NSButton()
+    private let backButton = NSButton()
     private let bottomBorder = NSView()
     private var content = Content(repo: nil, branch: nil, title: "")
     private var sidebarCollapsed = false
@@ -65,9 +67,24 @@ final class WorkspaceHeaderView: NSView {
         reopenButton.setAccessibilityLabel(reopenButton.toolTip)
         reopenButton.target = self
         reopenButton.action = #selector(reopenClicked)
+        backButton.isBordered = false
+        backButton.title = String(localized: "Workspace.View.BackToSession",
+                                  defaultValue: "Back to session",
+                                  comment: "Button in the header of a full-window view that returns to the terminal session")
+        backButton.image = NSImage(systemSymbolName: SFSymbol.chevronLeft.rawValue, accessibilityDescription: nil)?
+            .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 11, weight: .semibold))
+        backButton.imagePosition = .imageLeading
+        backButton.font = .systemFont(ofSize: 13)
+        backButton.contentTintColor = WorkspaceColor.accentText
+        backButton.target = self
+        backButton.action = #selector(backClicked)
+        backButton.toolTip = String(localized: "Workspace.View.BackToSession.Tooltip",
+                                    defaultValue: "Back to session (Esc)",
+                                    comment: "Tooltip of the button that returns from a full-window view to the terminal session. Esc is the Escape key.")
+        backButton.isHidden = true
         bottomBorder.wantsLayer = true
 
-        [repoLabel, slashLabel, pill, titleLabel, reopenButton, bottomBorder].forEach(addSubview)
+        [repoLabel, slashLabel, pill, titleLabel, reopenButton, backButton, bottomBorder].forEach(addSubview)
     }
 
     required init?(coder: NSCoder) {
@@ -83,6 +100,7 @@ final class WorkspaceHeaderView: NSView {
     }
 
     @objc private func reopenClicked() { onToggleSidebar?() }
+    @objc private func backClicked() { onBack?() }
 
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
@@ -108,12 +126,16 @@ final class WorkspaceHeaderView: NSView {
             x = 112
         }
 
+        backButton.isHidden = content.viewName == nil
         if let viewName = content.viewName {
             repoLabel.isHidden = true
             slashLabel.isHidden = true
             pill.isHidden = true
+            backButton.frame = NSRect(x: x, y: 8, width: 130, height: 28)
+            x += 142
             titleLabel.stringValue = viewName
             titleLabel.frame = NSRect(x: x, y: 13, width: max(0, bounds.width - x - 16), height: 18)
+            titleLabel.isHidden = false
             return
         }
 

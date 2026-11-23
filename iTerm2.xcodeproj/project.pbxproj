@@ -4946,6 +4946,11 @@
 		A324331927F7D96DBFCCE40F /* WorkspaceSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCEA20D1053ED466467CDC2 /* WorkspaceSessionStore.swift */; };
 		CA95BA1BC568F6D34ACE9FE8 /* WorkspaceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACAB6126DF411B2F3B0AE0C /* WorkspaceSidebarView.swift */; };
 		D7C8561E79DA54A01EBC9E73 /* WorkspaceHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470C354A4C4A6FE2030F5A0A /* WorkspaceHeaderView.swift */; };
+		206AF77368E6F1610B912031 /* GitHubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E596084ED61D48741530284 /* GitHubClient.swift */; };
+		ECC2A41A06F19D1FFD36877A /* WorkspaceListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0AD3DEFB229BF1E94C374 /* WorkspaceListPage.swift */; };
+		9063428506778DEC0BB4801A /* WorkspacePages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981AA278100760539AAC3A1 /* WorkspacePages.swift */; };
+		C4DDEB2332D492F8F9900189 /* WorkspacePullRequestDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5F0704FA1175E21E259E7A /* WorkspacePullRequestDetailPage.swift */; };
+		8463C04DC8EE1B8AD89A7BCE /* WorkspaceFullWindowHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77615F87F5C21666389E7C31 /* WorkspaceFullWindowHost.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -9346,6 +9351,11 @@
 		49614A6C8768DAAF409711D1 /* RepoResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RepoResolver.swift; sourceTree = "<group>"; };
 		55E160F09DB0C504DE60450E /* WorkspaceController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceController.swift; sourceTree = "<group>"; };
 		8FCEA20D1053ED466467CDC2 /* WorkspaceSessionStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceSessionStore.swift; sourceTree = "<group>"; };
+		1E596084ED61D48741530284 /* GitHubClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GitHubClient.swift; sourceTree = "<group>"; };
+		4AF0AD3DEFB229BF1E94C374 /* WorkspaceListPage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceListPage.swift; sourceTree = "<group>"; };
+		7981AA278100760539AAC3A1 /* WorkspacePages.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspacePages.swift; sourceTree = "<group>"; };
+		7A5F0704FA1175E21E259E7A /* WorkspacePullRequestDetailPage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspacePullRequestDetailPage.swift; sourceTree = "<group>"; };
+		77615F87F5C21666389E7C31 /* WorkspaceFullWindowHost.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceFullWindowHost.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -15596,6 +15606,11 @@
 				2ACAB6126DF411B2F3B0AE0C /* WorkspaceSidebarView.swift */,
 				470C354A4C4A6FE2030F5A0A /* WorkspaceHeaderView.swift */,
 				55E160F09DB0C504DE60450E /* WorkspaceController.swift */,
+				1E596084ED61D48741530284 /* GitHubClient.swift */,
+				4AF0AD3DEFB229BF1E94C374 /* WorkspaceListPage.swift */,
+				7981AA278100760539AAC3A1 /* WorkspacePages.swift */,
+				7A5F0704FA1175E21E259E7A /* WorkspacePullRequestDetailPage.swift */,
+				77615F87F5C21666389E7C31 /* WorkspaceFullWindowHost.swift */,
 			);
 			name = Workspace;
 			path = Workspace;
@@ -20910,6 +20925,11 @@
 				A324331927F7D96DBFCCE40F /* WorkspaceSessionStore.swift in Sources */,
 				CA95BA1BC568F6D34ACE9FE8 /* WorkspaceSidebarView.swift in Sources */,
 				D7C8561E79DA54A01EBC9E73 /* WorkspaceHeaderView.swift in Sources */,
+				206AF77368E6F1610B912031 /* GitHubClient.swift in Sources */,
+				ECC2A41A06F19D1FFD36877A /* WorkspaceListPage.swift in Sources */,
+				9063428506778DEC0BB4801A /* WorkspacePages.swift in Sources */,
+				C4DDEB2332D492F8F9900189 /* WorkspacePullRequestDetailPage.swift in Sources */,
+				8463C04DC8EE1B8AD89A7BCE /* WorkspaceFullWindowHost.swift in Sources */,
 				656CAAAAC134854FADCB4A08 /* WorkspaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
