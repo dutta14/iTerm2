@@ -1948,7 +1948,8 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
         inputs.workspaceEnabled = YES;
         inputs.workspaceSidebarWidth = [workspace sidebarLayoutWidthForWindowWidth:inputs.contentViewWidth];
         inputs.workspaceHeaderHeight = workspace.headerLayoutHeight;
-        inputs.workspaceInspectorWidth = 0;
+        inputs.workspaceInspectorWidth = [workspace inspectorLayoutWidthForWindowWidth:inputs.contentViewWidth
+                                                                  sidebarWidth:inputs.workspaceSidebarWidth];
         inputs.shouldShowToolbelt = NO;
         inputs.toolbeltWidth = 0;
         inputs.tabBarVisible = NO;

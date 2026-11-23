@@ -70,6 +70,10 @@ enum WorkspaceSettings {
     private static let sidebarWidthKey = "NoSyncWorkspaceSidebarWidth"
     private static let sidebarVisibleKey = "NoSyncWorkspaceSidebarVisible"
     private static let inspectorWidthKey = "NoSyncWorkspaceInspectorWidth"
+    private static let inspectorVisibleKey = "NoSyncWorkspaceInspectorVisible"
+    private static let minimapKey = "NoSyncWorkspaceMinimap"
+    static let collapseInspectorBelowWindowWidth: CGFloat = 900
+    static let minimumTerminalColumnWidth: CGFloat = 320
 
     static var isEnabled: Bool {
         return iTermAdvancedSettingsModel.workspaceUI()
@@ -108,6 +112,34 @@ enum WorkspaceSettings {
             return stored > 0 ? CGFloat(stored) : defaultInspectorWidth
         }
         set { iTermUserDefaults.userDefaults().set(Double(newValue), forKey: inspectorWidthKey) }
+    }
+
+    static var inspectorVisible: Bool {
+        get {
+            guard iTermUserDefaults.userDefaults().object(forKey: inspectorVisibleKey) != nil else { return true }
+            return iTermUserDefaults.userDefaults().bool(forKey: inspectorVisibleKey)
+        }
+        set { iTermUserDefaults.userDefaults().set(newValue, forKey: inspectorVisibleKey) }
+    }
+
+    static var minimapEnabled: Bool {
+        get {
+            guard iTermUserDefaults.userDefaults().object(forKey: minimapKey) != nil else { return true }
+            return iTermUserDefaults.userDefaults().bool(forKey: minimapKey)
+        }
+        set {
+            iTermUserDefaults.userDefaults().set(newValue, forKey: minimapKey)
+            NotificationCenter.default.post(name: didChangeNotification, object: nil)
+        }
+    }
+
+    /// Returns the sidebar and inspector to their default widths.
+    static func resetLayout() {
+        let defaults = iTermUserDefaults.userDefaults()
+        for key in [sidebarWidthKey, inspectorWidthKey, sidebarVisibleKey, inspectorVisibleKey] {
+            defaults.removeObject(forKey: key)
+        }
+        NotificationCenter.default.post(name: didChangeNotification, object: nil)
     }
 
     static let didChangeNotification = Notification.Name("iTermWorkspaceSettingsDidChange")

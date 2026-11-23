@@ -13,10 +13,13 @@ final class WorkspaceHeaderView: NSView {
         var branch: String?
         var title: String
         var viewName: String?
+        var inspectorVisible = false
+        var inspectorAvailable = true
     }
 
     var onToggleSidebar: (() -> Void)?
     var onBack: (() -> Void)?
+    var onToggleInspector: (() -> Void)?
 
     private let repoLabel = NSTextField(labelWithString: "")
     private let slashLabel = NSTextField(labelWithString: "/")
@@ -26,6 +29,7 @@ final class WorkspaceHeaderView: NSView {
     private let titleLabel = NSTextField(labelWithString: "")
     private let reopenButton = NSButton()
     private let backButton = NSButton()
+    private let inspectorButton = NSButton()
     private let bottomBorder = NSView()
     private var content = Content(repo: nil, branch: nil, title: "")
     private var sidebarCollapsed = false
@@ -82,9 +86,17 @@ final class WorkspaceHeaderView: NSView {
                                     defaultValue: "Back to session (Esc)",
                                     comment: "Tooltip of the button that returns from a full-window view to the terminal session. Esc is the Escape key.")
         backButton.isHidden = true
+        inspectorButton.isBordered = false
+        inspectorButton.image = NSImage(systemSymbolName: SFSymbol.sidebarRight.rawValue, accessibilityDescription: nil)?
+            .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 13, weight: .regular))
+        inspectorButton.imagePosition = .imageOnly
+        inspectorButton.contentTintColor = WorkspaceColor.textSecondary
+        inspectorButton.target = self
+        inspectorButton.action = #selector(inspectorClicked)
         bottomBorder.wantsLayer = true
 
-        [repoLabel, slashLabel, pill, titleLabel, reopenButton, backButton, bottomBorder].forEach(addSubview)
+        [repoLabel, slashLabel, pill, titleLabel, reopenButton, backButton, inspectorButton, bottomBorder].forEach(addSubview)
+        updateInspectorButton()
     }
 
     required init?(coder: NSCoder) {
@@ -96,11 +108,24 @@ final class WorkspaceHeaderView: NSView {
         self.content = content
         self.sidebarCollapsed = sidebarCollapsed
         needsLayout = true
+        updateInspectorButton()
         setAccessibilityLabel(content.title)
     }
 
     @objc private func reopenClicked() { onToggleSidebar?() }
     @objc private func backClicked() { onBack?() }
+    @objc private func inspectorClicked() { onToggleInspector?() }
+
+    private func updateInspectorButton() {
+        inspectorButton.isHidden = content.viewName != nil
+        let shortcut = "⌥⌘\\"
+        inspectorButton.toolTip = content.inspectorVisible
+            ? String(localized: "Workspace.Header.Inspector.Hide", defaultValue: "Hide inspector (\(shortcut))", comment: "Tooltip when the inspector is open. The placeholder is the keyboard shortcut Option-Command-Backslash.")
+            : String(localized: "Workspace.Header.Inspector.Show", defaultValue: "Show inspector (\(shortcut))", comment: "Tooltip when the inspector is closed. The placeholder is the keyboard shortcut Option-Command-Backslash.")
+        inspectorButton.setAccessibilityLabel(inspectorButton.toolTip)
+        inspectorButton.contentTintColor = content.inspectorVisible ? WorkspaceColor.accentText : WorkspaceColor.textSecondary
+        inspectorButton.isEnabled = content.inspectorAvailable
+    }
 
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
@@ -139,7 +164,8 @@ final class WorkspaceHeaderView: NSView {
             return
         }
 
-        let trailing = bounds.width - 16
+        inspectorButton.frame = NSRect(x: bounds.width - 40, y: 8, width: 28, height: 28)
+        let trailing = bounds.width - 48
         let repoText = content.repo ?? ""
         repoLabel.isHidden = repoText.isEmpty
         slashLabel.isHidden = repoText.isEmpty

@@ -4951,6 +4951,14 @@
 		9063428506778DEC0BB4801A /* WorkspacePages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981AA278100760539AAC3A1 /* WorkspacePages.swift */; };
 		C4DDEB2332D492F8F9900189 /* WorkspacePullRequestDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5F0704FA1175E21E259E7A /* WorkspacePullRequestDetailPage.swift */; };
 		8463C04DC8EE1B8AD89A7BCE /* WorkspaceFullWindowHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77615F87F5C21666389E7C31 /* WorkspaceFullWindowHost.swift */; };
+		F29C1948FC20426780452603 /* WorkspaceInspectorModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5686AC7051DFE3DC417BD49 /* WorkspaceInspectorModels.swift */; };
+		9BC40E6B5E8F86B5EA145B5F /* InspectorGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096431D101B40F9016EA7BE /* InspectorGit.swift */; };
+		A93496162185C870B2441FB4 /* InspectorTerminalPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB361814B1C65E5066CDA4A /* InspectorTerminalPane.swift */; };
+		219EA12682DDD49401D6942B /* InspectorChangesPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F8C93E84C194B5C353CE5 /* InspectorChangesPane.swift */; };
+		3E60DAA780679EBFA810AAB2 /* InspectorFilesPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48435437072244CF2198418 /* InspectorFilesPane.swift */; };
+		CD52A87B950DA41A9490179B /* WorkspaceInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3E8DC7A24AD90F03B932E5 /* WorkspaceInspectorView.swift */; };
+		A9463DD93A75E6CB0A3436BB /* WorkspaceMinimapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E88B830C9F8B925B34F9EE /* WorkspaceMinimapView.swift */; };
+		0CE5435264174C7BDE56FBD5 /* WorkspaceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C81C81B46310BEF82F6FD49 /* WorkspaceMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -9356,6 +9364,14 @@
 		7981AA278100760539AAC3A1 /* WorkspacePages.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspacePages.swift; sourceTree = "<group>"; };
 		7A5F0704FA1175E21E259E7A /* WorkspacePullRequestDetailPage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspacePullRequestDetailPage.swift; sourceTree = "<group>"; };
 		77615F87F5C21666389E7C31 /* WorkspaceFullWindowHost.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceFullWindowHost.swift; sourceTree = "<group>"; };
+		B5686AC7051DFE3DC417BD49 /* WorkspaceInspectorModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceInspectorModels.swift; sourceTree = "<group>"; };
+		D096431D101B40F9016EA7BE /* InspectorGit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InspectorGit.swift; sourceTree = "<group>"; };
+		9AB361814B1C65E5066CDA4A /* InspectorTerminalPane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InspectorTerminalPane.swift; sourceTree = "<group>"; };
+		3B6F8C93E84C194B5C353CE5 /* InspectorChangesPane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InspectorChangesPane.swift; sourceTree = "<group>"; };
+		A48435437072244CF2198418 /* InspectorFilesPane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InspectorFilesPane.swift; sourceTree = "<group>"; };
+		5E3E8DC7A24AD90F03B932E5 /* WorkspaceInspectorView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceInspectorView.swift; sourceTree = "<group>"; };
+		C0E88B830C9F8B925B34F9EE /* WorkspaceMinimapView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceMinimapView.swift; sourceTree = "<group>"; };
+		2C81C81B46310BEF82F6FD49 /* WorkspaceMenu.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorkspaceMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -15606,6 +15622,14 @@
 				2ACAB6126DF411B2F3B0AE0C /* WorkspaceSidebarView.swift */,
 				470C354A4C4A6FE2030F5A0A /* WorkspaceHeaderView.swift */,
 				55E160F09DB0C504DE60450E /* WorkspaceController.swift */,
+				B5686AC7051DFE3DC417BD49 /* WorkspaceInspectorModels.swift */,
+				D096431D101B40F9016EA7BE /* InspectorGit.swift */,
+				9AB361814B1C65E5066CDA4A /* InspectorTerminalPane.swift */,
+				3B6F8C93E84C194B5C353CE5 /* InspectorChangesPane.swift */,
+				A48435437072244CF2198418 /* InspectorFilesPane.swift */,
+				5E3E8DC7A24AD90F03B932E5 /* WorkspaceInspectorView.swift */,
+				C0E88B830C9F8B925B34F9EE /* WorkspaceMinimapView.swift */,
+				2C81C81B46310BEF82F6FD49 /* WorkspaceMenu.swift */,
 				1E596084ED61D48741530284 /* GitHubClient.swift */,
 				4AF0AD3DEFB229BF1E94C374 /* WorkspaceListPage.swift */,
 				7981AA278100760539AAC3A1 /* WorkspacePages.swift */,
@@ -20925,6 +20949,14 @@
 				A324331927F7D96DBFCCE40F /* WorkspaceSessionStore.swift in Sources */,
 				CA95BA1BC568F6D34ACE9FE8 /* WorkspaceSidebarView.swift in Sources */,
 				D7C8561E79DA54A01EBC9E73 /* WorkspaceHeaderView.swift in Sources */,
+				F29C1948FC20426780452603 /* WorkspaceInspectorModels.swift in Sources */,
+				9BC40E6B5E8F86B5EA145B5F /* InspectorGit.swift in Sources */,
+				A93496162185C870B2441FB4 /* InspectorTerminalPane.swift in Sources */,
+				219EA12682DDD49401D6942B /* InspectorChangesPane.swift in Sources */,
+				3E60DAA780679EBFA810AAB2 /* InspectorFilesPane.swift in Sources */,
+				CD52A87B950DA41A9490179B /* WorkspaceInspectorView.swift in Sources */,
+				A9463DD93A75E6CB0A3436BB /* WorkspaceMinimapView.swift in Sources */,
+				0CE5435264174C7BDE56FBD5 /* WorkspaceMenu.swift in Sources */,
 				206AF77368E6F1610B912031 /* GitHubClient.swift in Sources */,
 				ECC2A41A06F19D1FFD36877A /* WorkspaceListPage.swift in Sources */,
 				9063428506778DEC0BB4801A /* WorkspacePages.swift in Sources */,

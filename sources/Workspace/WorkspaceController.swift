@@ -21,6 +21,19 @@ final class WorkspaceController: NSObject {
     private var activeNav: WorkspaceNavItem?
     private var host: WorkspaceFullWindowHost?
     private let store = WorkspaceSessionStore.shared
+    private lazy var inspectorView: WorkspaceInspectorView = makeInspector()
+    private let minimapView = WorkspaceMinimapView(frame: .zero)
+    private var inspectorExpanded = false
+    private var lastInspectorContext: String?
+    private var minimapTimer: Timer?
+    private var minimapPrompts = [MinimapPrompt]()
+    private var minimapSessionGuid: String?
+    private static let controllers = NSHashTable<WorkspaceController>.weakObjects()
+
+    /// The controller of the key window, for menu commands.
+    static var current: WorkspaceController? {
+        return controllers.allObjects.first { $0.rootView?.window === NSApp.keyWindow }
+    }
 
     @objc static var isEnabled: Bool {
         return WorkspaceSettings.isEnabled
@@ -33,6 +46,11 @@ final class WorkspaceController: NSObject {
         sidebarView.delegate = self
         headerView.onToggleSidebar = { [weak self] in self?.toggleSidebar() }
         headerView.onBack = { [weak self] in self?.closeFullWindowView() }
+        headerView.onToggleInspector = { [weak self] in self?.toggleInspector() }
+        minimapView.onJump = { [weak self] index in self?.jumpToPrompt(at: index) }
+        minimapView.isHidden = true
+        Self.controllers.add(self)
+        WorkspaceMenu.installIfNeeded()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(storeDidChange),
                                                name: WorkspaceSessionStore.didChangeNotification,
@@ -53,6 +71,7 @@ final class WorkspaceController: NSObject {
 
     deinit {
         syncTimer?.invalidate()
+        minimapTimer?.invalidate()
         if let keyMonitor {
             NSEvent.removeMonitor(keyMonitor)
         }
@@ -64,6 +83,26 @@ final class WorkspaceController: NSObject {
         let key = event.charactersIgnoringModifiers
         if flags == .command, key == "b" {
             toggleSidebar()
+            return true
+        }
+        if flags == [.option, .command], key == "\\" {
+            toggleInspector()
+            return true
+        }
+        if flags == .command, key == "\\" {
+            showInspectorTab(.changes)
+            return true
+        }
+        if flags == .control, key == "`" {
+            toggleTerminalTab()
+            return true
+        }
+        if flags == [.command, .control], key == "i" {
+            focusInspector()
+            return true
+        }
+        if flags == .option, event.keyCode == 125 || event.keyCode == 126, minimapView.isHidden == false {
+            stepPrompt(forward: event.keyCode == 125)
             return true
         }
         if flags == [.command, .control] {
@@ -95,6 +134,21 @@ final class WorkspaceController: NSObject {
                                                            windowWidth: windowWidth)
     }
 
+    /// Width the inspector occupies. It yields before the terminal drops under its minimum width,
+    /// and is absent while a full-window view is up.
+    @objc(inspectorLayoutWidthForWindowWidth:sidebarWidth:)
+    func inspectorLayoutWidth(forWindowWidth windowWidth: CGFloat, sidebarWidth: CGFloat) -> CGFloat {
+        guard WorkspaceSettings.inspectorVisible,
+              host?.superview == nil,
+              windowWidth >= WorkspaceSettings.collapseInspectorBelowWindowWidth else {
+            return 0
+        }
+        let proposed = inspectorExpanded ? windowWidth * 0.5 : WorkspaceSettings.inspectorWidth
+        let clamped = iTermLayoutCalculator.workspaceInspectorWidth(forProposed: proposed, windowWidth: windowWidth)
+        let available = windowWidth - sidebarWidth - WorkspaceSettings.minimumTerminalColumnWidth
+        return available >= clamped ? clamped : (available >= 280 ? available : 0)
+    }
+
     @objc var headerLayoutHeight: CGFloat {
         return WorkspaceSettings.headerHeight
     }
@@ -111,6 +165,7 @@ final class WorkspaceController: NSObject {
         headerView.frame = outputs.workspaceHeaderFrame
         headerView.isHidden = outputs.workspaceHeaderFrame.isEmpty
         sidebarView.setToggleTooltip(visible: !sidebarView.isHidden)
+        layoutInspector(in: rootView, outputs: outputs)
         layoutHost(in: rootView, outputs: outputs)
         rootView.window?.appearance = WorkspaceSettings.appearanceMode.appearance
         startSyncingIfNeeded()
@@ -127,6 +182,46 @@ final class WorkspaceController: NSObject {
         RunLoop.main.add(timer, forMode: .common)
         syncTimer = timer
         store.importCopilotSessionsInBackground()
+    }
+
+    private func makeInspector() -> WorkspaceInspectorView {
+        let view = WorkspaceInspectorView(frame: .zero)
+        view.isHidden = true
+        view.onResize = { [weak self] width in
+            guard let self, let rootView = self.rootView else { return }
+            self.inspectorExpanded = false
+            self.inspectorView.setExpanded(false)
+            WorkspaceSettings.inspectorWidth = width
+            rootView.layoutSubviews()
+        }
+        view.onToggleExpand = { [weak self] in
+            guard let self, let rootView = self.rootView else { return }
+            self.inspectorExpanded.toggle()
+            self.inspectorView.setExpanded(self.inspectorExpanded)
+            rootView.layoutSubviews()
+        }
+        return view
+    }
+
+    private func layoutInspector(in rootView: iTermRootTerminalView, outputs: iTermLayoutOutputs) {
+        let inspector = inspectorView
+        if inspector.superview !== rootView {
+            rootView.addSubview(inspector, positioned: .above, relativeTo: nil)
+        }
+        if minimapView.superview !== rootView {
+            rootView.addSubview(minimapView, positioned: .above, relativeTo: nil)
+        }
+        inspector.frame = outputs.workspaceInspectorFrame
+        inspector.isHidden = outputs.workspaceInspectorFrame.isEmpty
+        if inspector.isHidden {
+            inspectorExpanded = false
+        }
+        let tab = outputs.tabViewFrame
+        let scroller = NSScroller.scrollerWidth(for: .regular, scrollerStyle: NSScroller.preferredScrollerStyle)
+        minimapView.frame = NSRect(x: tab.maxX - MinimapModel.columnWidth - scroller,
+                                   y: tab.minY,
+                                   width: MinimapModel.columnWidth,
+                                   height: tab.height)
     }
 
     private func layoutHost(in rootView: iTermRootTerminalView, outputs: iTermLayoutOutputs) {
@@ -186,12 +281,15 @@ final class WorkspaceController: NSObject {
 
     @objc private func settingsDidChange() {
         rootView?.window?.appearance = WorkspaceSettings.appearanceMode.appearance
+        updateMinimap(recomputePrompts: false)
     }
 
     @objc func refresh() {
         store.setLiveRecords(liveRecords())
         reloadSidebar()
         updateHeader()
+        updateInspectorContext()
+        updateMinimap(recomputePrompts: true)
     }
 
     private func reloadSidebar() {
@@ -209,7 +307,9 @@ final class WorkspaceController: NSObject {
         headerView.update(content: WorkspaceHeaderView.Content(repo: record?.repo,
                                                                branch: record?.branch,
                                                                title: title,
-                                                               viewName: host?.viewName),
+                                                               viewName: host?.viewName,
+                                                               inspectorVisible: WorkspaceSettings.inspectorVisible,
+                                                               inspectorAvailable: host?.superview == nil),
                           sidebarCollapsed: collapsed)
     }
 
@@ -219,6 +319,152 @@ final class WorkspaceController: NSObject {
         WorkspaceSettings.sidebarVisible.toggle()
         rootView?.layoutSubviews()
         refresh()
+    }
+
+    // MARK: - Inspector
+
+    private func updateInspectorContext() {
+        let session = terminal?.currentSession()
+        let guids = Set(terminal?.allSessions().map { $0.guid } ?? [])
+        let directory = session?.currentLocalWorkingDirectory
+        let key = "\(session?.guid ?? "")|\(directory ?? "")"
+        if key != lastInspectorContext {
+            lastInspectorContext = key
+            inspectorView.setContext(sessionGuid: session?.guid, directory: directory)
+        }
+        inspectorView.pruneTerminals(keeping: guids)
+    }
+
+    @objc func toggleInspector() {
+        if host?.superview != nil { return }
+        WorkspaceSettings.inspectorVisible.toggle()
+        rootView?.layoutSubviews()
+        refresh()
+        if !WorkspaceSettings.inspectorVisible, inspectorView.terminalHasFocus {
+            terminal?.currentSession()?.takeFocus()
+        }
+    }
+
+    private func revealInspector() {
+        guard host?.superview == nil else { return }
+        if !WorkspaceSettings.inspectorVisible {
+            WorkspaceSettings.inspectorVisible = true
+        }
+        rootView?.layoutSubviews()
+        refresh()
+    }
+
+    func showInspectorTab(_ kind: InspectorTabKind) {
+        revealInspector()
+        inspectorView.activate(kind)
+        inspectorView.focusActivePane()
+    }
+
+    private func toggleTerminalTab() {
+        if WorkspaceSettings.inspectorVisible, inspectorView.activeKind == .terminal, inspectorView.terminalHasFocus {
+            terminal?.currentSession()?.takeFocus()
+        } else {
+            showInspectorTab(.terminal)
+        }
+    }
+
+    func focusInspectorFromMenu() { focusInspector() }
+
+    private func focusInspector() {
+        revealInspector()
+        inspectorView.focusActivePane()
+    }
+
+    @objc func resetLayout() {
+        let warning = iTermWarning()
+        warning.heading = String(localized: "Workspace.Settings.ResetLayout.Heading", defaultValue: "Reset layout?", comment: "Heading of the confirmation for resetting the workspace layout")
+        warning.title = String(localized: "Workspace.Settings.ResetLayout.Confirm", defaultValue: "The sidebar and inspector return to their default size and visibility.", comment: "Body of the confirmation for resetting the workspace layout")
+        warning.actionLabels = [String(localized: "Workspace.Settings.ResetLayout.Action", defaultValue: "Reset", comment: "Confirm button for resetting the workspace layout"), iTermLocalizedCancel()]
+        warning.warningType = .kiTermWarningTypePersistent
+        warning.window = rootView?.window
+        guard warning.runModal() == .kiTermWarningSelection0 else { return }
+        WorkspaceSettings.resetLayout()
+        inspectorExpanded = false
+        inspectorView.setExpanded(false)
+        rootView?.layoutSubviews()
+        refresh()
+    }
+
+    // MARK: - Minimap
+
+    private var minimapSession: PTYSession? {
+        return terminal?.currentSession()
+    }
+
+    private func promptsForMinimap(in session: PTYSession) -> [MinimapPrompt] {
+        var newestFirst = [(line: Int64, text: String, outputStart: Int64)]()
+        session.screen.enumeratePromptsBackward { mark, stop in
+            if mark.isPrompt, let command = mark.fullCommand, !command.isEmpty {
+                newestFirst.append((mark.promptRange.start.y, command, mark.outputStart.y))
+            }
+            if newestFirst.count >= 2000 {
+                stop.pointee = true
+            }
+        }
+        let ordered = Array(newestFirst.reversed())
+        return ordered.enumerated().map { index, entry in
+            let end = index + 1 < ordered.count ? ordered[index + 1].line : entry.outputStart + 1
+            return MinimapPrompt(id: "\(entry.line)", text: entry.text, absoluteLine: entry.line, isLong: end - entry.outputStart > 30)
+        }
+    }
+
+    private func visibleBottomLine(of session: PTYSession) -> Int64? {
+        guard let textView = session.textview else { return nil }
+        let range = textView.rangeOfVisibleLines
+        return Int64(textView.firstVisibleAbsoluteLineNumber) + Int64(max(0, range.length - 1))
+    }
+
+    private func updateMinimap(recomputePrompts: Bool) {
+        guard let session = minimapSession, host?.superview == nil else {
+            minimapView.isHidden = true
+            return
+        }
+        if recomputePrompts || session.guid != minimapSessionGuid {
+            minimapSessionGuid = session.guid
+            minimapPrompts = promptsForMinimap(in: session)
+        }
+        let show = MinimapModel.shouldShow(promptCount: minimapPrompts.count, enabled: WorkspaceSettings.minimapEnabled)
+        minimapView.isHidden = !show
+        if show {
+            let bottom = visibleBottomLine(of: session)
+            let current = bottom.flatMap { MinimapModel.currentPromptIndex(prompts: minimapPrompts, visibleBottomAbsoluteLine: $0) }
+            minimapView.update(prompts: minimapPrompts, currentIndex: current)
+            startMinimapTimer()
+        } else {
+            minimapTimer?.invalidate()
+            minimapTimer = nil
+        }
+    }
+
+    private func startMinimapTimer() {
+        guard minimapTimer == nil else { return }
+        let timer = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
+            self?.updateMinimap(recomputePrompts: false)
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        minimapTimer = timer
+    }
+
+    private func jumpToPrompt(at index: Int) {
+        guard minimapPrompts.indices.contains(index), let session = minimapSession else { return }
+        session.textview?.scroll(toAbsoluteOffset: minimapPrompts[index].absoluteLine, height: 1)
+        updateMinimap(recomputePrompts: false)
+    }
+
+    private func stepPrompt(forward: Bool) {
+        guard let session = minimapSession, let textView = session.textview else { return }
+        let top = Int64(textView.firstVisibleAbsoluteLineNumber)
+        let target = forward
+            ? MinimapModel.nextIndex(prompts: minimapPrompts, visibleTopAbsoluteLine: top)
+            : MinimapModel.previousIndex(prompts: minimapPrompts, visibleTopAbsoluteLine: top)
+        if let target {
+            jumpToPrompt(at: target)
+        }
     }
 
     private func launchSession(directory: String?,
