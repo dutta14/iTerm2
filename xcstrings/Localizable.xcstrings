@@ -1481491,6 +1481491,630 @@
         }
       }
     },
+    "Workspace.Header.Inspector.Hide" : {
+      "comment" : "Tooltip when the inspector is open. The placeholder is the keyboard shortcut Option-Command-Backslash.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hide inspector (%@)"
+          }
+        }
+      }
+    },
+    "Workspace.Header.Inspector.Show" : {
+      "comment" : "Tooltip when the inspector is closed. The placeholder is the keyboard shortcut Option-Command-Backslash.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show inspector (%@)"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.A11y" : {
+      "comment" : "Accessibility label of the inspector column",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Inspector"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.AddTab" : {
+      "comment" : "Tooltip and VoiceOver label of the inspector's + button",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add a tab"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.A11y.Added" : {
+      "comment" : "VoiceOver label of an added diff line. The placeholder is the line.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Added: %@"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.A11y.Removed" : {
+      "comment" : "VoiceOver label of a removed diff line. The placeholder is the line.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Removed: %@"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Binary" : {
+      "comment" : "Row note for a binary file in the changes list",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Binary file changed"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Empty" : {
+      "comment" : "Shown in the inspector's Changes tab when nothing has changed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No uncommitted changes."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Error" : {
+      "comment" : "Shown in the inspector's Changes tab when git fails",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn’t read this repo’s changes."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.List.A11y" : {
+      "comment" : "Accessibility label of the changed files list",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Changed files"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Loading" : {
+      "comment" : "Row shown while a file's diff loads",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Loading…"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.NoDiff" : {
+      "comment" : "Row note when a changed file has no line-level diff, such as an empty new file",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No line changes"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.NoRepo" : {
+      "comment" : "Shown in the inspector's Changes tab when the session's folder has no git repository",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This folder isn’t in a git repo, so there are no changes to show."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Refresh" : {
+      "comment" : "Tooltip of the button that reloads the list of changed files",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Refresh changes"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.ShowMore" : {
+      "comment" : "Button that reveals more lines of a long diff",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show more"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Status.Added" : {
+      "comment" : "VoiceOver word for a file added in the working tree",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Added"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Status.Deleted" : {
+      "comment" : "VoiceOver word for a file deleted in the working tree",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Deleted"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Status.Modified" : {
+      "comment" : "VoiceOver word for a modified file",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Modified"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Status.Renamed" : {
+      "comment" : "VoiceOver word for a renamed file",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Renamed"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Status.Untracked" : {
+      "comment" : "VoiceOver word for a file git doesn't track yet",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Untracked"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Summary.One" : {
+      "comment" : "Summary line above the list of changed files when exactly one file changed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "1 file changed"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Changes.Summary.Other" : {
+      "comment" : "Summary line above the list of changed files. The placeholder is the number of files, which is not 1.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%lld files changed"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.CloseTab" : {
+      "comment" : "Tooltip of the inspector tab close button",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close tab"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.CloseTab.A11y" : {
+      "comment" : "VoiceOver label of an inspector tab's close button. The placeholder is the tab name.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close %@"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Empty" : {
+      "comment" : "Shown in the inspector when every tab has been closed",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No tabs open. Add one to see changes, a terminal or files."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Expand" : {
+      "comment" : "Tooltip of the inspector's expand control",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Expand inspector"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Empty" : {
+      "comment" : "Shown in the inspector's Files tab when the repo has no files",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No files to show in this repo."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Error" : {
+      "comment" : "Shown in the inspector's Files tab when git fails",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn’t read this repo’s files."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Menu.CopyPath" : {
+      "comment" : "Context menu item in the file tree that copies the absolute path",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copy path"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Menu.CopyRelativePath" : {
+      "comment" : "Context menu item in the file tree that copies the path relative to the repo",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copy relative path"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Menu.Reveal" : {
+      "comment" : "Context menu item in the file tree",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reveal in Finder"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.NoRepo" : {
+      "comment" : "Shown in the inspector's Files tab when the session's folder has no git repository",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This folder isn’t in a git repo, so there are no files to show."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Tree.A11y" : {
+      "comment" : "Accessibility label of the file tree",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Repository files"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Files.Truncated" : {
+      "comment" : "Footer of the file tree when the repo has more files than the inspector lists. The placeholder is a formatted number.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Showing the first %@ files."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Restore" : {
+      "comment" : "Tooltip of the inspector's expand control once the inspector is expanded",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Restore inspector width"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.Browser" : {
+      "comment" : "Inspector tab label. Deferred.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Browser"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.Changes" : {
+      "comment" : "Inspector tab label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Changes"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.Files" : {
+      "comment" : "Inspector tab label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Files"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.PR.Generic" : {
+      "comment" : "Inspector tab label when the pull request number isn't known",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull request"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.SideChat" : {
+      "comment" : "Inspector tab label. Deferred.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Side chat"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tab.Terminal" : {
+      "comment" : "Inspector tab label",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Terminal"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tabs.A11y" : {
+      "comment" : "Accessibility label of the inspector's tab strip",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Inspector tabs"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tag.Later" : {
+      "comment" : "Tag on an inspector menu item that ships in a later version",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Later"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Tag.Soon" : {
+      "comment" : "Tag on an inspector menu item that ships soon",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Soon"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.A11y" : {
+      "comment" : "Accessibility label of the inspector's terminal",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Terminal"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.CloseBody" : {
+      "comment" : "Alert body when closing the inspector terminal while a command is running",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "A command is still running in this terminal. Closing it ends the shell and stops the command."
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.CloseButton" : {
+      "comment" : "Destructive button that closes the inspector terminal",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close terminal"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.CloseTitle" : {
+      "comment" : "Alert title when closing the inspector terminal while a command is running",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close this terminal?"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.Exited" : {
+      "comment" : "Shown in the inspector terminal after its shell ends",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "[Shell exited. Press any key to start a new one.]"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.KeepButton" : {
+      "comment" : "Cancel button of the alert that asks before closing the inspector terminal",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Keep open"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.Output.A11y" : {
+      "comment" : "Accessibility label of the inspector terminal's output area",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Shell output"
+          }
+        }
+      }
+    },
+    "Workspace.Inspector.Terminal.StartFailed" : {
+      "comment" : "Shown in the inspector terminal when the shell can't be started",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Couldn't start a shell."
+          }
+        }
+      }
+    },
     "Workspace.Issues.Action.Start" : {
       "comment" : "Row button that starts a Copilot session to fix an issue. The ellipsis means a confirmation sheet follows.",
       "extractionState" : "extracted_with_value",
@@ -1481847,6 +1482471,150 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Close"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.Changes" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Changes"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.Files" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Files"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.FocusInspector" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Focus Inspector"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.Minimap" : {
+      "comment" : "Workspace menu item that toggles the prompt minimap",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Minimap"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.ResetLayout" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reset Layout…"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.Terminal" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Terminal Tab"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.Title" : {
+      "comment" : "Title of the Workspace menu in the menu bar",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Workspace"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.ToggleInspector" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show or Hide Inspector"
+          }
+        }
+      }
+    },
+    "Workspace.Menu.ToggleSidebar" : {
+      "comment" : "Workspace menu item",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show or Hide Sidebar"
+          }
+        }
+      }
+    },
+    "Workspace.Minimap.Container.A11y" : {
+      "comment" : "VoiceOver label of the minimap strip",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Prompts in this session"
+          }
+        }
+      }
+    },
+    "Workspace.Minimap.Tick.A11y" : {
+      "comment" : "VoiceOver label of one minimap tick. The placeholders are the prompt's position, the number of prompts and the first characters of the prompt.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Prompt %1$lld of %2$lld: %3$@"
+          }
+        }
+      }
+    },
+    "Workspace.Minimap.Tooltip" : {
+      "comment" : "Tooltip of the minimap strip",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "One tick per prompt. Click to jump."
           }
         }
       }
@@ -1482327,6 +1483095,42 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.Settings.ResetLayout.Action" : {
+      "comment" : "Confirm button for resetting the workspace layout",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
+    "Workspace.Settings.ResetLayout.Confirm" : {
+      "comment" : "Body of the confirmation for resetting the workspace layout",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The sidebar and inspector return to their default size and visibility."
+          }
+        }
+      }
+    },
+    "Workspace.Settings.ResetLayout.Heading" : {
+      "comment" : "Heading of the confirmation for resetting the workspace layout",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reset layout?"
           }
         }
       }

@@ -14,6 +14,16 @@ New Features:
   pull request details, and watch, cancel or
   re-run GitHub Actions runs. ⌃⌘1, ⌃⌘2 and ⌃⌘3
   open them; Esc or ⌃⌘0 returns to the session.
+- The workspace layout has an inspector on the
+  right with Changes (git diff of the session’s
+  repository), Terminal (a second shell in the
+  repository root) and Files tabs. ⌥⌘\ shows or
+  hides it, ⌘\ opens Changes and ⌃` toggles the
+  Terminal tab. With shell integration, a minimap
+  beside the terminal has one tick per prompt;
+  click one to jump, or press ⌥↑ and ⌥↓. The
+  Workspace menu has the commands and Reset
+  Layout.
 - Quick Look on a web link can use the built-in
   browser, so sites you sign in to stay signed
   in. It can also open when you hover over a
