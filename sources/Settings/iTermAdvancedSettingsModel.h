@@ -661,6 +661,8 @@ extern NSString *const iTermAdvancedSettingsDidChange;
 + (CGFloat)verticalBarCursorWidth;
 + (NSString *)viewManPageCommand;
 + (BOOL)wrapFocus;
++ (BOOL)workspaceUI;
++ (void)setWorkspaceUI:(BOOL)value;
 + (BOOL)zeroWidthSpaceAdvancesCursor;
 + (BOOL)stripZeroWidthFormatCharactersOnPaste;
 + (BOOL)zippyTextDrawing;
