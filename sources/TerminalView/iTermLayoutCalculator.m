@@ -33,6 +33,69 @@ const int kLayoutTabPositionRight = 3;
 #pragma mark - Main Entry Point
 
 + (iTermLayoutOutputs)calculateLayoutWithInputs:(iTermLayoutInputs)inputs {
+    if (inputs.workspaceEnabled) {
+        return [self calculateWorkspaceLayoutWithInputs:inputs];
+    }
+    return [self calculateClassicLayoutWithInputs:inputs];
+}
+
+#pragma mark - Workspace Layout
+
+static const CGFloat kWorkspaceMinSidebarWidth = 180;
+static const CGFloat kWorkspaceMaxSidebarWidth = 320;
+static const CGFloat kWorkspaceMinInspectorWidth = 280;
+
++ (CGFloat)workspaceSidebarWidthForProposed:(CGFloat)proposed windowWidth:(CGFloat)windowWidth {
+    return MAX(kWorkspaceMinSidebarWidth, MIN(kWorkspaceMaxSidebarWidth, proposed));
+}
+
++ (CGFloat)workspaceInspectorWidthForProposed:(CGFloat)proposed windowWidth:(CGFloat)windowWidth {
+    const CGFloat maxWidth = MAX(kWorkspaceMinInspectorWidth, windowWidth * 0.5);
+    return MAX(kWorkspaceMinInspectorWidth, MIN(maxWidth, proposed));
+}
+
+// The classic layout runs inside the area left over by the sidebar and header. Its toolbelt
+// slot becomes the inspector, so the terminal keeps the remaining width.
++ (iTermLayoutOutputs)calculateWorkspaceLayoutWithInputs:(iTermLayoutInputs)inputs {
+    const CGFloat sidebarWidth = MAX(0, MIN(inputs.workspaceSidebarWidth, inputs.contentViewWidth));
+    const CGFloat headerHeight = MAX(0, MIN(inputs.workspaceHeaderHeight, inputs.contentViewHeight));
+    const CGFloat innerWidth = inputs.contentViewWidth - sidebarWidth;
+    const CGFloat inspectorWidth = MAX(0, MIN(inputs.workspaceInspectorWidth, innerWidth));
+
+    iTermLayoutInputs inner = inputs;
+    inner.workspaceEnabled = NO;
+    inner.contentViewWidth = innerWidth;
+    inner.contentViewHeight = inputs.contentViewHeight - headerHeight;
+    inner.toolbeltWidth = inspectorWidth;
+    inner.shouldShowToolbelt = inspectorWidth > 0;
+
+    iTermLayoutOutputs outputs = [self calculateClassicLayoutWithInputs:inner];
+
+    outputs.workspaceInspectorFrame = outputs.toolbeltFrame;
+    outputs.toolbeltFrame = CGRectZero;
+    outputs.tabViewFrame.origin.x += sidebarWidth;
+    if (!CGRectIsEmpty(outputs.statusBarFrame)) {
+        outputs.statusBarFrame.origin.x += sidebarWidth;
+    }
+    if (!CGRectIsEmpty(outputs.tabBarFrame)) {
+        outputs.tabBarFrame.origin.x += sidebarWidth;
+    }
+    if (!CGRectIsEmpty(outputs.workspaceInspectorFrame)) {
+        outputs.workspaceInspectorFrame.origin.x += sidebarWidth;
+    }
+    outputs.workspaceSidebarFrame = sidebarWidth > 0
+        ? CGRectMake(0, 0, sidebarWidth, inputs.contentViewHeight)
+        : CGRectZero;
+    outputs.workspaceHeaderFrame = headerHeight > 0
+        ? CGRectMake(sidebarWidth, inputs.contentViewHeight - headerHeight, innerWidth, headerHeight)
+        : CGRectZero;
+    outputs.decorationHeightTop += headerHeight;
+    return outputs;
+}
+
+#pragma mark - Classic Layout
+
++ (iTermLayoutOutputs)calculateClassicLayoutWithInputs:(iTermLayoutInputs)inputs {
     if (!inputs.tabBarVisible) {
         return [self calculateLayoutWithHiddenTabBarInputs:inputs];
     }

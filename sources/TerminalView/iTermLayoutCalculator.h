@@ -60,6 +60,13 @@ typedef struct {
 
     /// Whether to draw window title in place of tab bar
     BOOL drawWindowTitleInPlaceOfTabBar;
+
+    /// Workspace chrome (sidebar, header and inspector). When workspaceEnabled is NO
+    /// every field below is ignored and the layout is identical to the classic layout.
+    BOOL workspaceEnabled;
+    CGFloat workspaceSidebarWidth;  // 0 when the sidebar is collapsed
+    CGFloat workspaceHeaderHeight;
+    CGFloat workspaceInspectorWidth;  // 0 when the inspector is hidden
 } iTermLayoutInputs;
 
 /// Output frame rects from layout calculation.
@@ -79,6 +86,11 @@ typedef struct {
     /// Decoration heights (space consumed by decorations at top/bottom)
     CGFloat decorationHeightTop;
     CGFloat decorationHeightBottom;
+
+    /// Workspace chrome frames. Zero when the workspace is disabled or the piece is hidden.
+    CGRect workspaceSidebarFrame;
+    CGRect workspaceHeaderFrame;
+    CGRect workspaceInspectorFrame;
 } iTermLayoutOutputs;
 
 /// Pure layout calculator with no AppKit dependencies.
@@ -88,6 +100,20 @@ typedef struct {
 /// Calculate layout frames given input parameters.
 /// This is a pure function with no side effects.
 + (iTermLayoutOutputs)calculateLayoutWithInputs:(iTermLayoutInputs)inputs;
+
+/// Calculate the layout without the workspace chrome.
++ (iTermLayoutOutputs)calculateClassicLayoutWithInputs:(iTermLayoutInputs)inputs;
+
+/// Calculate the layout with the sidebar, header and inspector.
++ (iTermLayoutOutputs)calculateWorkspaceLayoutWithInputs:(iTermLayoutInputs)inputs;
+
+/// Clamp a proposed sidebar width to the supported range for a window of the given width.
++ (CGFloat)workspaceSidebarWidthForProposed:(CGFloat)proposed
+                               windowWidth:(CGFloat)windowWidth;
+
+/// Clamp a proposed inspector width to the supported range for a window of the given width.
++ (CGFloat)workspaceInspectorWidthForProposed:(CGFloat)proposed
+                                  windowWidth:(CGFloat)windowWidth;
 
 /// Calculate the tab view frame, optionally shrinking for fullscreen tab bar.
 /// This handles the case when the tab bar is a titlebar accessory that overlaps content.

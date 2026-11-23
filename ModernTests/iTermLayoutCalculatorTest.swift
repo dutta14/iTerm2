@@ -635,4 +635,67 @@ final class iTermLayoutCalculatorTest: XCTestCase {
         // Full height available
         XCTAssertEqual(outputs.tabViewFrame.size.height, CGFloat(inputs.contentViewHeight))
     }
+
+    // MARK: - Workspace Layout Tests
+
+    func testWorkspaceSettingsIgnoredWhenWorkspaceDisabled() {
+        var inputs = makeDefaultInputs()
+        inputs.shouldShowToolbelt = true
+        let classic = iTermLayoutCalculator.calculateLayout(with: inputs)
+
+        inputs.workspaceSidebarWidth = 224
+        inputs.workspaceHeaderHeight = 44
+        inputs.workspaceInspectorWidth = 340
+        let result = iTermLayoutCalculator.calculateLayout(with: inputs)
+
+        XCTAssertEqual(result.tabViewFrame, classic.tabViewFrame)
+        XCTAssertEqual(result.toolbeltFrame, classic.toolbeltFrame)
+        XCTAssertEqual(result.tabBarFrame, classic.tabBarFrame)
+        XCTAssertEqual(result.decorationHeightTop, classic.decorationHeightTop)
+        XCTAssertEqual(result.workspaceSidebarFrame, .zero)
+        XCTAssertEqual(result.workspaceHeaderFrame, .zero)
+        XCTAssertEqual(result.workspaceInspectorFrame, .zero)
+    }
+
+    func testWorkspacePlacesSidebarHeaderTerminalAndInspectorWithoutOverlap() {
+        var inputs = makeDefaultInputs()
+        inputs.tabBarVisible = false
+        inputs.workspaceEnabled = true
+        inputs.workspaceSidebarWidth = 224
+        inputs.workspaceHeaderHeight = 44
+        inputs.workspaceInspectorWidth = 340
+
+        let o = iTermLayoutCalculator.calculateLayout(with: inputs)
+
+        XCTAssertEqual(o.workspaceSidebarFrame, CGRect(x: 0, y: 0, width: 224, height: 600))
+        XCTAssertEqual(o.workspaceHeaderFrame, CGRect(x: 224, y: 556, width: 576, height: 44))
+        XCTAssertEqual(o.tabViewFrame, CGRect(x: 224, y: 0, width: 236, height: 556))
+        XCTAssertEqual(o.workspaceInspectorFrame, CGRect(x: 460, y: 0, width: 340, height: 556))
+        XCTAssertEqual(o.toolbeltFrame, .zero)
+    }
+
+    func testWorkspaceCollapsedSidebarAndHiddenInspectorGiveTerminalFullWidth() {
+        var inputs = makeDefaultInputs()
+        inputs.tabBarVisible = false
+        inputs.workspaceEnabled = true
+        inputs.workspaceHeaderHeight = 44
+
+        let o = iTermLayoutCalculator.calculateLayout(with: inputs)
+
+        XCTAssertEqual(o.workspaceSidebarFrame, .zero)
+        XCTAssertEqual(o.workspaceInspectorFrame, .zero)
+        XCTAssertEqual(o.tabViewFrame, CGRect(x: 0, y: 0, width: 800, height: 556))
+    }
+
+    func testWorkspaceSidebarWidthIsClamped() {
+        XCTAssertEqual(iTermLayoutCalculator.workspaceSidebarWidth(forProposed: 50, windowWidth: 1000), 180)
+        XCTAssertEqual(iTermLayoutCalculator.workspaceSidebarWidth(forProposed: 224, windowWidth: 1000), 224)
+        XCTAssertEqual(iTermLayoutCalculator.workspaceSidebarWidth(forProposed: 900, windowWidth: 1000), 320)
+    }
+
+    func testWorkspaceInspectorWidthIsClampedToHalfTheWindow() {
+        XCTAssertEqual(iTermLayoutCalculator.workspaceInspectorWidth(forProposed: 100, windowWidth: 1000), 280)
+        XCTAssertEqual(iTermLayoutCalculator.workspaceInspectorWidth(forProposed: 340, windowWidth: 1000), 340)
+        XCTAssertEqual(iTermLayoutCalculator.workspaceInspectorWidth(forProposed: 900, windowWidth: 1000), 500)
+    }
 }
