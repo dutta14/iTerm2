@@ -444,11 +444,11 @@ final class WorkspaceListPage: NSView, NSTableViewDataSource, NSTableViewDelegat
     }
 
     func show(rows newRows: [WorkspaceListRow], footer: String, staleNotice: String?) {
+        let selectedID = table.selectedRow >= 0 && table.selectedRow < rows.count ? rows[table.selectedRow].id : nil
         rows = newRows
-        let selected = table.selectedRow
         table.reloadData()
-        if selected >= 0, selected < rows.count {
-            table.selectRowIndexes(IndexSet(integer: selected), byExtendingSelection: false)
+        if let selectedID, let index = rows.firstIndex(where: { $0.id == selectedID }) {
+            table.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
         }
         scrollView.isHidden = false
         message.isHidden = true

@@ -76,6 +76,9 @@ final class GitHubClientTests: XCTestCase {
         } else {
             XCTFail("SSO errors should be classified as not authorized, not rate limited")
         }
+        if case .rateLimited = GitHubError.classify(stderr: "HTTP 403: Forbidden") {
+            XCTFail("A plain 403 must not lock out every gh call")
+        }
         XCTAssertEqual(GitHubError.classify(stderr: "boom\nsecond\nthird\nfourth"), .failed("boom\nsecond\nthird"))
     }
 

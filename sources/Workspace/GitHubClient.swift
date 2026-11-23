@@ -28,8 +28,11 @@ enum GitHubError: Error, Equatable {
             || text.contains("gh auth refresh") || text.contains("missing required scope") {
             return .notAuthorized(firstLines(of: stderr, count: 1))
         }
-        if text.contains("rate limit") || text.contains("http 429") || text.contains("http 403") {
+        if text.contains("rate limit") || text.contains("http 429") {
             return .rateLimited(resetAt: nil)
+        }
+        if text.contains("http 403") {
+            return .notAuthorized(firstLines(of: stderr, count: 1))
         }
         if text.contains("could not resolve host") || text.contains("network is unreachable")
             || text.contains("i/o timeout") || text.contains("no such host") || text.contains("offline")
@@ -221,7 +224,19 @@ final class GitHubClient {
     private let cacheLock = NSLock()
     private var cache = [String: Any]()
     private var cachedPath: String??
-    private var rateLimitedUntil: Date?
+    private var _rateLimitedUntil: Date?
+    private var rateLimitedUntil: Date? {
+        get {
+            cacheLock.lock()
+            defer { cacheLock.unlock() }
+            return _rateLimitedUntil
+        }
+        set {
+            cacheLock.lock()
+            _rateLimitedUntil = newValue
+            cacheLock.unlock()
+        }
+    }
 
     static func isValid(repo: String) -> Bool {
         return repo.range(of: repoPattern, options: .regularExpression) != nil
@@ -294,9 +309,12 @@ final class GitHubClient {
         } catch {
             return ProcessResult(output: nil, stderr: error.localizedDescription, status: -1, timedOut: false)
         }
+        let flagLock = NSLock()
         var timedOut = false
         let killer = DispatchWorkItem {
+            flagLock.lock()
             timedOut = true
+            flagLock.unlock()
             process.terminate()
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + timeout, execute: killer)
@@ -311,10 +329,13 @@ final class GitHubClient {
         group.wait()
         process.waitUntilExit()
         killer.cancel()
+        flagLock.lock()
+        let didTimeOut = timedOut
+        flagLock.unlock()
         return ProcessResult(output: data,
                              stderr: String(data: errorData, encoding: .utf8) ?? "",
                              status: process.terminationStatus,
-                             timedOut: timedOut)
+                             timedOut: didTimeOut)
     }
 
     /// Blocking. Call from a background queue.

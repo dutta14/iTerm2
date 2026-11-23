@@ -272,6 +272,7 @@ final class PullRequestsPage: WorkspaceDataPage {
                 self.repoFilter = index == 0 || index > repos.count ? nil : repos[index - 1]
             } else {
                 self.stateFilter = self.states[index]
+                self.items = []
                 self.reload()
                 return
             }
@@ -453,6 +454,7 @@ final class IssuesPage: WorkspaceDataPage {
                 self.render()
             } else {
                 self.stateFilter = self.states[index]
+                self.items = []
                 self.reload()
             }
         }
@@ -594,6 +596,7 @@ final class AutomationsPage: WorkspaceDataPage {
     private var runs = [WorkflowRun]()
     private var timer: Timer?
     private var pendingActions = [Int: String]()
+    private var actionError: String?
 
     override var viewName: String {
         return String(localized: "Workspace.Automations.Title", defaultValue: "Automations", comment: "Title of the automations view")
@@ -763,7 +766,7 @@ final class AutomationsPage: WorkspaceDataPage {
         }
         list.show(rows: rows,
                   footer: footerUpdated + " · " + String(localized: "Workspace.Automations.Cadence", defaultValue: "Updates every 10 seconds while open", comment: "Footer note describing how often runs refresh while a run is in progress"),
-                  staleNotice: stale ? WorkspaceSetupMessage.couldntRefresh : nil)
+                  staleNotice: actionError ?? (stale ? WorkspaceSetupMessage.couldntRefresh : nil))
     }
 
     private static func symbol(for run: WorkflowRun) -> SFSymbol {
@@ -827,6 +830,7 @@ final class AutomationsPage: WorkspaceDataPage {
         warning.warningType = .kiTermWarningTypePersistent
         warning.window = window
         guard warning.runModal() == .kiTermWarningSelection0 else { return }
+        actionError = nil
         pendingActions[run.databaseId] = String(localized: "Workspace.Automations.State.Cancelling", defaultValue: "Cancelling…", comment: "Shown on a row while its run is being cancelled")
         render()
         GitHubClient.shared.perform(.cancel, runId: run.databaseId, repo: run.repo) { [weak self] result in
@@ -835,6 +839,7 @@ final class AutomationsPage: WorkspaceDataPage {
     }
 
     private func rerun(_ run: WorkflowRun) {
+        actionError = nil
         pendingActions[run.databaseId] = String(localized: "Workspace.Automations.State.Rerunning", defaultValue: "Re-running…", comment: "Shown on a row while its run is being started again")
         render()
         GitHubClient.shared.perform(.rerun(failedOnly: run.isFailed), runId: run.databaseId, repo: run.repo) { [weak self] result in
@@ -845,7 +850,7 @@ final class AutomationsPage: WorkspaceDataPage {
     private func finishAction(run: WorkflowRun, result: Result<Void, GitHubError>) {
         pendingActions[run.databaseId] = nil
         if case .failure(let error) = result {
-            list.showStale(WorkspaceSetupMessage.content(for: error).body)
+            actionError = WorkspaceSetupMessage.content(for: error).body
         }
         reload()
     }
