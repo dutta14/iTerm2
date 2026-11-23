@@ -209544,6 +209544,18 @@
         }
       }
     },
+    "AdvancedSetting.workspaceUI" : {
+      "comment" : "Advanced setting: workspaceUI",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Use the workspace window layout?\nShows a sidebar of sessions grouped by repository, a header, and an inspector around the terminal. Takes effect for new windows."
+          }
+        }
+      }
+    },
     "AdvancedSetting.wrapFocus" : {
       "comment" : "Advanced setting: wrapFocus",
       "extractionState" : "extracted_with_value",
@@ -1480983,6 +1480995,222 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未命名的工作群組"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.A11y.Label" : {
+      "comment" : "Accessibility label of the sidebar region.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sessions sidebar"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Empty.Body" : {
+      "comment" : "Body of the empty sidebar.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start one in a repo and it shows up here."
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Group.NewTooltip" : {
+      "comment" : "Tooltip of the plus on a repo group. %@ is the repo name.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New session in %@"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Nav.Automations" : {
+      "comment" : "Sidebar row that shows GitHub Actions runs.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Automations"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Nav.Issues" : {
+      "comment" : "Sidebar row that shows issues.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Issues"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Nav.New" : {
+      "comment" : "Sidebar row that starts a session.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New session"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Nav.PullRequests" : {
+      "comment" : "Sidebar row that shows pull requests.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pull requests"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.NoRepo.Label" : {
+      "comment" : "Group label for sessions with no resolved repo.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No repository"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.NoRepo.Tooltip" : {
+      "comment" : "Tooltip on the No repository group.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sessions without a repo."
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Profile.GearTooltip" : {
+      "comment" : "Tooltip of the gear button next to the profile name.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Workspace settings"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Search.Tooltip" : {
+      "comment" : "Tooltip of the search button. The shortcut is Command-Shift-O.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search sessions (⌘⇧O)"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Section.NewTooltip" : {
+      "comment" : "Tooltip of the plus on the Sessions header.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose a repo for a new session"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.SessionsHeader" : {
+      "comment" : "Section header above the session list.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sessions"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Status.Done" : {
+      "comment" : "Status of a session that has finished.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Status.Errored" : {
+      "comment" : "Status of a session whose process exited with an error.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ended with error"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Status.Running" : {
+      "comment" : "Status of a session that is running.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Running"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Toggle.Hide" : {
+      "comment" : "Tooltip when the sidebar is open. The shortcut is Command-B.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hide sidebar (⌘B)"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Toggle.Show" : {
+      "comment" : "Tooltip when the sidebar is closed. The shortcut is Command-B.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show sidebar (⌘B)"
           }
         }
       }
