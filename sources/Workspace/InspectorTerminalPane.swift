@@ -50,7 +50,15 @@ final class InspectorShell {
         }
         // A new session whose first opened terminal becomes its controlling terminal, so job
         // control and Ctrl+C work.
-        posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETSID))
+        // Close everything else inherited from this app (session ptys, sockets), and reset signal
+        // dispositions so the shell does not inherit ignored or blocked signals.
+        var allSignals = sigset_t()
+        sigfillset(&allSignals)
+        var noSignals = sigset_t()
+        sigemptyset(&noSignals)
+        posix_spawnattr_setsigdefault(&attributes, &allSignals)
+        posix_spawnattr_setsigmask(&attributes, &noSignals)
+        posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETSID | POSIX_SPAWN_CLOEXEC_DEFAULT | POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_SETSIGMASK))
         posix_spawn_file_actions_addopen(&actions, 0, slaveName, O_RDWR, 0)
         posix_spawn_file_actions_adddup2(&actions, 0, 1)
         posix_spawn_file_actions_adddup2(&actions, 0, 2)
