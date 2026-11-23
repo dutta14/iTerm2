@@ -24,8 +24,7 @@ enum InspectorTabKind: String, CaseIterable {
 
     var availability: Availability {
         switch self {
-        case .changes, .terminal, .files: return .available
-        case .pullRequest: return .soon
+        case .changes, .terminal, .files, .pullRequest: return .available
         case .browser, .sideChat: return .later
         }
     }
@@ -292,15 +291,14 @@ struct TerminalTextBuffer {
     }
 
     private mutating func put(_ character: Character) {
-        var line = lines[lines.count - 1]
-        while line.count < column { line.append(" ") }
-        if column < line.count {
-            line[column] = character
+        let last = lines.count - 1
+        while lines[last].count < column { lines[last].append(" ") }
+        if column < lines[last].count {
+            lines[last][column] = character
         } else {
-            line.append(character)
+            lines[last].append(character)
         }
         column += 1
-        lines[lines.count - 1] = line
     }
 
     private mutating func newline() {
@@ -391,5 +389,23 @@ enum MinimapModel {
         return String(localized: "Workspace.Minimap.Tick.A11y",
                       defaultValue: "Prompt \(index + 1) of \(count): \(preview)",
                       comment: "VoiceOver label of one minimap tick. The placeholders are the prompt's position, the number of prompts and the first characters of the prompt.")
+    }
+}
+
+
+/// What the inspector's pull request tab knows about the active session.
+enum InspectorPullRequestState: Equatable {
+    /// The session has no GitHub repository or branch.
+    case unavailable
+    case searching
+    case none
+    case found(repo: String, number: Int)
+}
+
+enum PullRequestBranchPicker {
+    /// An open pull request wins; otherwise the most recently updated one.
+    static func pick(from matches: [PullRequestBranchMatch]) -> PullRequestBranchMatch? {
+        let newestFirst = matches.sorted { $0.updatedAt > $1.updatedAt }
+        return newestFirst.first { $0.state.uppercased() == "OPEN" } ?? newestFirst.first
     }
 }

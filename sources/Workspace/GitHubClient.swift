@@ -142,8 +142,15 @@ struct PullRequestCheck: Decodable, Equatable {
     let status: String?
     let conclusion: String?
     let state: String?
+    let detailsUrl: String?
+    let targetUrl: String?
 
     var displayName: String { name ?? context ?? "Check" }
+
+    /// Where the check's own page lives, when it has one.
+    var url: URL? {
+        return (detailsUrl ?? targetUrl).flatMap { URL(string: $0) }.flatMap { $0.scheme == "https" ? $0 : nil }
+    }
 
     enum Outcome { case passing, failing, running, neutral }
 
@@ -154,6 +161,14 @@ struct PullRequestCheck: Decodable, Equatable {
         if ["NEUTRAL", "SKIPPED", "CANCELLED", "STALE"].contains(result) { return .neutral }
         return .running
     }
+}
+
+struct PullRequestBranchMatch: Decodable, Equatable {
+    let number: Int
+    let title: String
+    let state: String
+    let url: String
+    let updatedAt: Date
 }
 
 struct PullRequestDetail: Decodable, Equatable {
@@ -449,6 +464,20 @@ final class GitHubClient {
         fetch(PullRequestDetail.self,
               arguments: ["pr", "view", String(number), "-R", repo, "--json",
                           "number,title,body,state,isDraft,headRefName,baseRefName,url,author,createdAt,labels,assignees,files,reviews,statusCheckRollup"],
+              completion: completion)
+    }
+
+    /// The pull requests whose head is `branch`, for the header's View PR button.
+    func pullRequests(forBranch branch: String,
+                      repo: String,
+                      completion: @escaping (Result<[PullRequestBranchMatch], GitHubError>) -> Void) {
+        guard Self.isValid(repo: repo), !branch.isEmpty else {
+            completion(.success([]))
+            return
+        }
+        fetch([PullRequestBranchMatch].self,
+              arguments: ["pr", "list", "-R", repo, "--head=" + branch, "--state", "all", "--limit", "5",
+                          "--json", "number,title,state,url,updatedAt"],
               completion: completion)
     }
 

@@ -150,4 +150,33 @@ final class WorkspaceInspectorModelsTests: XCTestCase {
         let prompt = MinimapPrompt(id: "x", text: String(repeating: "a", count: 80) + "\nrest", absoluteLine: 0, isLong: false)
         XCTAssertEqual(prompt.preview.count, 60)
     }
+
+    // MARK: Pull request lookup
+
+    private func match(_ number: Int, _ state: String, daysAgo: Double) -> PullRequestBranchMatch {
+        return PullRequestBranchMatch(number: number, title: "t", state: state, url: "https://github.com/o/r/pull/\(number)",
+                                      updatedAt: Date(timeIntervalSinceNow: -daysAgo * 86_400))
+    }
+
+    func testBranchPickerPrefersOpenOverNewerClosed() {
+        let picked = PullRequestBranchPicker.pick(from: [match(1, "CLOSED", daysAgo: 0), match(2, "OPEN", daysAgo: 5), match(3, "OPEN", daysAgo: 9)])
+        XCTAssertEqual(picked?.number, 2)
+    }
+
+    func testBranchPickerFallsBackToNewestWhenNoneOpen() {
+        let picked = PullRequestBranchPicker.pick(from: [match(1, "MERGED", daysAgo: 9), match(2, "CLOSED", daysAgo: 1)])
+        XCTAssertEqual(picked?.number, 2)
+        XCTAssertNil(PullRequestBranchPicker.pick(from: []))
+    }
+
+    func testCheckURLIsHTTPSOnly() throws {
+        let json = """
+        [{"name":"build","status":"COMPLETED","conclusion":"SUCCESS","detailsUrl":"https://github.com/o/r/runs/1"},
+         {"context":"ci","state":"PENDING","targetUrl":"file:///etc/passwd"}]
+        """
+        let checks = try GitHubClient.decoder().decode([PullRequestCheck].self, from: Data(json.utf8))
+        XCTAssertEqual(checks[0].url?.host, "github.com")
+        XCTAssertNil(checks[1].url)
+        XCTAssertEqual(checks[1].outcome, .running)
+    }
 }
