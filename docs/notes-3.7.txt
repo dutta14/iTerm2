@@ -7,6 +7,13 @@ New Features:
   repository and branch. Turn it on in Settings >
   Advanced > search for “workspace window
   layout”.
+- In the workspace layout, Pull requests, Issues
+  and Automations open as full-window views
+  backed by GitHub CLI (gh). Start a Copilot
+  session from a pull request or an issue, read
+  pull request details, and watch, cancel or
+  re-run GitHub Actions runs. ⌃⌘1, ⌃⌘2 and ⌃⌘3
+  open them; Esc or ⌃⌘0 returns to the session.
 - Quick Look on a web link can use the built-in
   browser, so sites you sign in to stay signed
   in. It can also open when you hover over a
