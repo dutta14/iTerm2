@@ -1780,6 +1780,9 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
 }
 
 - (BOOL)tabBarShouldBeVisibleEvenWhenOnLoan {
+    if (self.workspaceEnabled) {
+        return NO;
+    }
     if (self.tabBarControl.flashing) {
         DLog(@"Tabbar should be visible because it is flashing");
         return YES;

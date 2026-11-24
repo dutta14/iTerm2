@@ -6939,6 +6939,9 @@ hidingToolbeltShouldResizeWindow:(BOOL)hidingToolbeltShouldResizeWindow
 }
 
 - (BOOL)tabBarShouldBeVisibleEvenWhenOnLoan {
+    if (_contentView.workspaceEnabled) {
+        return NO;
+    }
     if (togglingLionFullScreen_ || [self lionFullScreen]) {
         return YES;
     }
@@ -6946,6 +6949,9 @@ hidingToolbeltShouldResizeWindow:(BOOL)hidingToolbeltShouldResizeWindow
 }
 
 - (BOOL)tabBarShouldBeVisible {
+    if (_contentView.workspaceEnabled) {
+        return NO;
+    }
     if (togglingLionFullScreen_ || [self lionFullScreen]) {
         return YES;
     }
@@ -7199,6 +7205,10 @@ hidingToolbeltShouldResizeWindow:(BOOL)hidingToolbeltShouldResizeWindow
 
 - (BOOL)tabBarShouldBeAccessory {
     RLog(@"%@", self);
+    if (_contentView.workspaceEnabled) {
+        // The sidebar lists the sessions, so there is no tab bar to host.
+        return NO;
+    }
     if (!(self.window.styleMask & NSWindowStyleMaskTitled)) {
         // You get an assertion if you try to add an accessory to an untitled window.
         RLog(@"NO - window not titled");
