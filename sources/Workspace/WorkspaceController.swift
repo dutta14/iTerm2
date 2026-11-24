@@ -189,6 +189,7 @@ final class WorkspaceController: NSObject {
     private func startSyncingIfNeeded() {
         guard syncTimer == nil else { return }
         let timer = Timer(timeInterval: 1.5, repeats: true) { [weak self] _ in
+            self?.store.importCopilotSessionsInBackground()
             self?.refresh()
         }
         RunLoop.main.add(timer, forMode: .common)
@@ -251,11 +252,16 @@ final class WorkspaceController: NSObject {
         guard let terminal else { return [] }
         var records = [WorkspaceSessionRecord]()
         for session in terminal.allSessions() {
-            let cwd = session.currentLocalWorkingDirectory
+            let copilotSessionId = resumedCopilotSessionIds[session.guid]
+            // Copilot can change its working directory without moving the shell's, so trust its own record.
+            let copilotCwd = copilotSessionId.flatMap { id in
+                store.records.first { $0.copilotSessionId == id }?.cwd
+            }
+            let cwd = copilotCwd ?? session.currentLocalWorkingDirectory
             let info = cwd.flatMap { resolveRepo(directory: $0) }
             let prNumber = info.flatMap { pullRequestMatch(repo: $0.repo, branch: $0.branch)?.number }
             records.append(WorkspaceSessionRecord(id: "live-" + session.guid,
-                                                  copilotSessionId: resumedCopilotSessionIds[session.guid],
+                                                  copilotSessionId: copilotSessionId,
                                                   imported: false,
                                                   repo: info?.repo,
                                                   repoSource: info == nil ? .none : .resolved,
@@ -657,7 +663,7 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
         switch item {
         case .newSession:
             closeFullWindowView()
-            launchSession(directory: nil, command: "copilot")
+            promptForRepoAndLaunchSession()
         case .pullRequests:
             show(.pullRequests)
         case .issues:
@@ -685,7 +691,64 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
     }
 
     func sidebar(_ sidebar: WorkspaceSidebarView, didRequestNewSessionInRepo repo: String?) {
+        guard repo != nil else {
+            promptForRepoAndLaunchSession()
+            return
+        }
         launchSession(directory: directory(forRepo: repo), command: "copilot")
+    }
+
+    /// Asks which repository a new session belongs to. Repos come from the sidebar's own groups.
+    private func promptForRepoAndLaunchSession() {
+        let menu = NSMenu()
+        let header = NSMenuItem(title: String(localized: "Workspace.NewSession.Menu.Header",
+                                              defaultValue: "Start a session in…",
+                                              comment: "Heading of the menu that asks which repository a new session should start in."),
+                                action: nil,
+                                keyEquivalent: "")
+        header.isEnabled = false
+        menu.addItem(header)
+        for group in store.groups() {
+            guard let repo = group.repo, let directory = directory(forRepo: repo) else { continue }
+            let item = NSMenuItem(title: repo, action: #selector(newSessionRepoChosen(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = directory
+            menu.addItem(item)
+        }
+        menu.addItem(.separator())
+        let folder = NSMenuItem(title: String(localized: "Workspace.NewSession.Menu.Folder",
+                                              defaultValue: "Choose Folder…",
+                                              comment: "Menu item that lets the user pick any folder to start a new session in."),
+                                action: #selector(newSessionFolderChosen(_:)),
+                                keyEquivalent: "")
+        folder.target = self
+        menu.addItem(folder)
+        let none = NSMenuItem(title: String(localized: "Workspace.NewSession.Menu.NoRepo",
+                                            defaultValue: "No Repository",
+                                            comment: "Menu item that starts a new session with no repository."),
+                              action: #selector(newSessionRepoChosen(_:)),
+                              keyEquivalent: "")
+        none.target = self
+        menu.addItem(none)
+        if let event = NSApp.currentEvent {
+            NSMenu.popUpContextMenu(menu, with: event, for: sidebarView)
+        } else {
+            menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+        }
+    }
+
+    @objc private func newSessionRepoChosen(_ sender: NSMenuItem) {
+        launchSession(directory: sender.representedObject as? String, command: "copilot")
+    }
+
+    @objc private func newSessionFolderChosen(_ sender: NSMenuItem) {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.canCreateDirectories = true
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        launchSession(directory: url.path, command: "copilot")
     }
 
     func sidebarDidRequestSettings(_ sidebar: WorkspaceSidebarView) {

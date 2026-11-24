@@ -14,7 +14,9 @@ New Features:
   not deleted.
 - The workspace sidebar lists only sessions Copilot
   CLI can resume, and an opened session no longer
-  shows up twice.
+  shows up twice. A session whose working directory
+  changes moves to the matching repository. New
+  Session asks which repository to start in.
 - In the workspace layout, Pull requests, Issues
   and Automations open as full-window views
   backed by GitHub CLI (gh). Start a Copilot

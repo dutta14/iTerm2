@@ -1482919,6 +1482919,42 @@
         }
       }
     },
+    "Workspace.NewSession.Menu.Folder" : {
+      "comment" : "Menu item that lets the user pick any folder to start a new session in.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose Folder…"
+          }
+        }
+      }
+    },
+    "Workspace.NewSession.Menu.Header" : {
+      "comment" : "Heading of the menu that asks which repository a new session should start in.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Start a session in…"
+          }
+        }
+      }
+    },
+    "Workspace.NewSession.Menu.NoRepo" : {
+      "comment" : "Menu item that starts a new session with no repository.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No Repository"
+          }
+        }
+      }
+    },
     "Workspace.PRDetail.CheckoutFailed" : {
       "comment" : "Body of the alert shown when checking out a pull request branch fails. The placeholder is the pull request number.",
       "extractionState" : "extracted_with_value",
