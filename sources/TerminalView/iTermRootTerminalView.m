@@ -2365,6 +2365,10 @@ static NSColor *iTermWindowBorderColorFromSetting(NSString *setting) {
     if (self.workspaceEnabled) {
         iTermLayoutInputs workspaceInputs = [self layoutInputsForWindow:thisWindow];
         [[self workspaceControllerCreatingIfNeeded] applyOutputs:[iTermLayoutCalculator calculateLayoutWithInputs:workspaceInputs]];
+        // The sidebar and header are added on top of everything; keep the stoplights visible above them.
+        if (_standardWindowButtonsView && self.subviews.lastObject != _standardWindowButtonsView) {
+            [self addSubview:_standardWindowButtonsView positioned:NSWindowAbove relativeTo:nil];
+        }
     }
 
     DLog(@"repositionWidgets - redraw view");
