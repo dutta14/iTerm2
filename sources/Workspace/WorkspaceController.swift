@@ -21,6 +21,9 @@ final class WorkspaceController: NSObject {
     private var activeNav: WorkspaceNavItem?
     private var host: WorkspaceFullWindowHost?
     private let store = WorkspaceSessionStore.shared
+    /// Copilot session IDs for terminals started with `copilot --resume`, keyed by terminal GUID.
+    /// Lets the live row replace the stored row instead of appearing next to it.
+    private var resumedCopilotSessionIds = [String: String]()
     private lazy var inspectorView: WorkspaceInspectorView = makeInspector()
     private let minimapView = WorkspaceMinimapView(frame: .zero)
     private var inspectorExpanded = false
@@ -252,7 +255,7 @@ final class WorkspaceController: NSObject {
             let info = cwd.flatMap { resolveRepo(directory: $0) }
             let prNumber = info.flatMap { pullRequestMatch(repo: $0.repo, branch: $0.branch)?.number }
             records.append(WorkspaceSessionRecord(id: "live-" + session.guid,
-                                                  copilotSessionId: nil,
+                                                  copilotSessionId: resumedCopilotSessionIds[session.guid],
                                                   imported: false,
                                                   repo: info?.repo,
                                                   repoSource: info == nil ? .none : .resolved,
@@ -525,7 +528,8 @@ final class WorkspaceController: NSObject {
     private func launchSession(directory: String?,
                                command: String?,
                                title: String? = nil,
-                               prefill: String? = nil) {
+                               prefill: String? = nil,
+                               resumingCopilotSessionId: String? = nil) {
         guard let terminal else { return }
         guard let base = ProfileModel.sharedInstance().defaultProfile() else { return }
         closeFullWindowView()
@@ -540,6 +544,9 @@ final class WorkspaceController: NSObject {
         iTermSessionLauncher.launchBookmark(profile as? [AnyHashable: Any],
                                             in: terminal,
                                             respectTabbingMode: false) { [weak self] session in
+            if let resumingCopilotSessionId {
+                self?.resumedCopilotSessionIds[session.guid] = resumingCopilotSessionId
+            }
             if let command {
                 session.writeTask(command + "\n")
             }
@@ -671,7 +678,10 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
             return
         }
         guard let id = record.copilotSessionId, Self.isUUID(id) else { return }
-        launchSession(directory: record.cwd, command: "copilot --resume " + id)
+        launchSession(directory: record.cwd,
+                      command: "copilot --resume " + id,
+                      title: record.title,
+                      resumingCopilotSessionId: id)
     }
 
     func sidebar(_ sidebar: WorkspaceSidebarView, didRequestNewSessionInRepo repo: String?) {

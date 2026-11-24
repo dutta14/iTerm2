@@ -194,9 +194,14 @@ final class WorkspaceSessionStore {
         var resolvedByDirectory = [String: RepoInfo?]()
         var imported = [WorkspaceSessionRecord]()
         let known = Set(records.compactMap { $0.copilotSessionId })
+        var resumable = Set<String>()
+        for entry in entries where Self.hasConversation(in: entry) {
+            resumable.insert(entry.lastPathComponent)
+        }
         for entry in entries {
             let file = entry.appendingPathComponent("workspace.yaml")
-            guard let text = try? String(contentsOf: file, encoding: .utf8),
+            guard resumable.contains(entry.lastPathComponent),
+                  let text = try? String(contentsOf: file, encoding: .utf8),
                   let parsed = CopilotWorkspaceFile.parse(text),
                   !known.contains(parsed.id) else {
                 continue
@@ -235,11 +240,33 @@ final class WorkspaceSessionStore {
                                                    issueNumber: nil,
                                                    terminalGuid: nil))
         }
-        guard !imported.isEmpty else { return }
         DispatchQueue.main.async {
+            // Drop earlier imports Copilot CLI can no longer resume: empty sessions and deleted ones.
+            let before = self.records.count
+            self.records.removeAll { $0.imported && !($0.copilotSessionId.map { resumable.contains($0) } ?? false) }
+            guard !imported.isEmpty || self.records.count != before else { return }
             self.records.append(contentsOf: imported)
             self.saveAndNotify()
         }
+    }
+
+    /// Copilot CLI lists, and can resume, only sessions that have at least one user message.
+    /// Sessions that were opened and left empty, or created by plugins, never get one.
+    private static func hasConversation(in directory: URL) -> Bool {
+        guard let handle = try? FileHandle(forReadingFrom: directory.appendingPathComponent("events.jsonl")) else {
+            return false
+        }
+        defer { try? handle.close() }
+        let marker = Data("\"type\":\"user.message\"".utf8)
+        var carry = Data()
+        while let chunk = try? handle.read(upToCount: 1 << 16), !chunk.isEmpty {
+            let window = carry + chunk
+            if window.range(of: marker) != nil {
+                return true
+            }
+            carry = window.suffix(marker.count - 1)
+        }
+        return false
     }
 
     private static func fallbackTitle(cwd: String?) -> String {

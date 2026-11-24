@@ -144,4 +144,48 @@ final class WorkspaceSessionStoreTests: XCTestCase {
         store.setLiveRecords([live])
         XCTAssertEqual(store.groups().first?.sessions.map { $0.id }, ["live-1"])
     }
+
+    // MARK: - importCopilotSessions
+
+    private func writeCopilotSession(_ id: String, in root: URL, events: String?) throws {
+        let dir = root.appendingPathComponent(id)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        try "id: \(id)\ncwd: /tmp\nname: Session \(id)\n".write(to: dir.appendingPathComponent("workspace.yaml"),
+                                                                 atomically: true,
+                                                                 encoding: .utf8)
+        if let events {
+            try events.write(to: dir.appendingPathComponent("events.jsonl"), atomically: true, encoding: .utf8)
+        }
+    }
+
+    func testImportSkipsSessionsCopilotCannotResume() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let talked = "11111111-1111-1111-1111-111111111111"
+        let empty = "22222222-2222-2222-2222-222222222222"
+        let noEvents = "33333333-3333-3333-3333-333333333333"
+        try writeCopilotSession(talked, in: root, events: "{\"type\":\"user.message\",\"data\":{}}\n")
+        try writeCopilotSession(empty, in: root, events: "{\"type\":\"session.start\"}\n")
+        try writeCopilotSession(noEvents, in: root, events: nil)
+        let store = WorkspaceSessionStore(fileURL: nil, copilotStateDirectory: root)
+
+        store.importCopilotSessions()
+        let flushed = expectation(description: "main queue drained")
+        DispatchQueue.main.async { flushed.fulfill() }
+        wait(for: [flushed], timeout: 5)
+
+        XCTAssertEqual(store.visibleRecords.compactMap { $0.copilotSessionId }, [talked])
+    }
+
+    func testOpenResumedSessionReplacesItsStoredRow() {
+        let store = makeStore()
+        var stored = record("a", repo: "o/r", updatedAt: 1)
+        stored.copilotSessionId = "sid"
+        store.upsert(stored)
+        var live = record("live-1", repo: "o/r", updatedAt: 2)
+        live.copilotSessionId = "sid"
+        store.setLiveRecords([live])
+
+        XCTAssertEqual(store.visibleRecords.map { $0.id }, ["live-1"])
+    }
 }

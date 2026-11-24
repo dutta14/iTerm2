@@ -12,6 +12,9 @@ New Features:
   right-click a repository to remove all of its
   sessions. Copilot CLI’s own session history is
   not deleted.
+- The workspace sidebar lists only sessions Copilot
+  CLI can resume, and an opened session no longer
+  shows up twice.
 - In the workspace layout, Pull requests, Issues
   and Automations open as full-window views
   backed by GitHub CLI (gh). Start a Copilot
