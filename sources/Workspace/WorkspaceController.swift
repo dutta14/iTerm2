@@ -682,6 +682,31 @@ extension WorkspaceController: WorkspaceSidebarDelegate {
         NSApp.sendAction(NSSelectorFromString("showPrefWindow:"), to: nil, from: self)
     }
 
+    func sidebar(_ sidebar: WorkspaceSidebarView, didRequestRemoveSessions records: [WorkspaceSessionRecord], inRepo repo: String?) {
+        guard !records.isEmpty else { return }
+        if records.count > 1 {
+            let warning = iTermWarning()
+            let name = repo ?? String(localized: "Workspace.Sidebar.NoRepo.Label",
+                                      defaultValue: "No repository",
+                                      comment: "Group label for sessions with no resolved repo.")
+            warning.heading = String(localized: "Workspace.Sidebar.RemoveAll.Title",
+                                     defaultValue: "Remove \(records.count) sessions from the sidebar?",
+                                     comment: "Title of the confirmation shown before removing every session in a group from the sidebar. The placeholder is a number greater than one.")
+            warning.title = String(localized: "Workspace.Sidebar.RemoveAll.Message",
+                                   defaultValue: "This removes the sessions in \(name) from this list. Their Copilot CLI history stays on disk.",
+                                   comment: "Body of the confirmation shown before removing a group’s sessions from the sidebar. The placeholder is a repo name.")
+            warning.actionLabels = [String(localized: "Workspace.Sidebar.RemoveAll.Button",
+                                           defaultValue: "Remove",
+                                           comment: "Button that confirms removing sessions from the sidebar."),
+                                    iTermLocalizedCancel()]
+            warning.cancelLabel = iTermLocalizedCancel()
+            warning.warningType = .kiTermWarningTypePersistent
+            warning.window = rootView?.window
+            guard warning.runModal() == .kiTermWarningSelection0 else { return }
+        }
+        store.hide(ids: records.map { $0.id })
+    }
+
     private static func isUUID(_ text: String) -> Bool {
         return UUID(uuidString: text) != nil
     }

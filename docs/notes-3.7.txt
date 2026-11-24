@@ -7,6 +7,11 @@ New Features:
   repository and branch. Turn it on in Settings >
   Advanced > search for “workspace window
   layout”.
+- In the workspace layout, right-click a session
+  in the sidebar to remove it from the list, or
+  right-click a repository to remove all of its
+  sessions. Copilot CLI’s own session history is
+  not deleted.
 - In the workspace layout, Pull requests, Issues
   and Automations open as full-window views
   backed by GitHub CLI (gh). Start a Copilot

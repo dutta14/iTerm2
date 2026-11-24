@@ -48,6 +48,7 @@ protocol WorkspaceSidebarDelegate: AnyObject {
     func sidebar(_ sidebar: WorkspaceSidebarView, didSelectSession record: WorkspaceSessionRecord)
     func sidebar(_ sidebar: WorkspaceSidebarView, didRequestNewSessionInRepo repo: String?)
     func sidebarDidRequestSettings(_ sidebar: WorkspaceSidebarView)
+    func sidebar(_ sidebar: WorkspaceSidebarView, didRequestRemoveSessions records: [WorkspaceSessionRecord], inRepo repo: String?)
 }
 
 private func symbolImage(_ symbol: SFSymbol, pointSize: CGFloat, weight: NSFont.Weight = .regular) -> NSImage? {
@@ -60,6 +61,7 @@ private func symbolImage(_ symbol: SFSymbol, pointSize: CGFloat, weight: NSFont.
 private final class WorkspaceRowView: NSView {
     var onClick: (() -> Void)?
     var onHoverChanged: ((Bool) -> Void)?
+    var contextMenuProvider: (() -> NSMenu?)?
     var isSelected = false { didSet { updateBackground() } }
     private(set) var isHovered = false { didSet { updateBackground(); onHoverChanged?(isHovered) } }
     private var trackingArea: NSTrackingArea?
@@ -95,6 +97,10 @@ private final class WorkspaceRowView: NSView {
 
     override func mouseDown(with event: NSEvent) {
         onClick?()
+    }
+
+    override func menu(for event: NSEvent) -> NSMenu? {
+        return contextMenuProvider?()
     }
 
     override func viewDidChangeEffectiveAppearance() {
@@ -388,6 +394,9 @@ final class WorkspaceSidebarView: NSVisualEffectView {
                                  defaultValue: "Sessions without a repo.",
                                  comment: "Tooltip on the No repository group.")
         }
+        row.contextMenuProvider = { [weak self] in
+            self?.makeGroupMenu(group)
+        }
         row.onClick = { [weak self] in
             guard let self else { return }
             if self.collapsedRepos.contains(key) {
@@ -438,7 +447,39 @@ final class WorkspaceSidebarView: NSVisualEffectView {
             guard let self else { return }
             self.delegate?.sidebar(self, didSelectSession: record)
         }
+        row.contextMenuProvider = { [weak self] in
+            self?.makeSessionMenu(record)
+        }
         return row
+    }
+
+    private func makeSessionMenu(_ record: WorkspaceSessionRecord) -> NSMenu {
+        let menu = NSMenu()
+        let item = NSMenuItem(title: String(localized: "Workspace.Sidebar.Session.Remove",
+                                            defaultValue: "Remove from sidebar",
+                                            comment: "Context menu item that removes one session from the sidebar. The session’s Copilot CLI history is kept."),
+                              action: #selector(removeSessionChosen(_:)),
+                              keyEquivalent: "")
+        item.target = self
+        item.representedObject = record.id
+        // A session open in a terminal tab is removed by closing the tab.
+        item.isEnabled = record.terminalGuid == nil
+        menu.addItem(item)
+        return menu
+    }
+
+    private func makeGroupMenu(_ group: WorkspaceRepoGroup) -> NSMenu {
+        let menu = NSMenu()
+        let item = NSMenuItem(title: String(localized: "Workspace.Sidebar.Group.RemoveAll",
+                                            defaultValue: "Remove all sessions from sidebar",
+                                            comment: "Context menu item on a repo group that removes every session in the group from the sidebar. The sessions’ Copilot CLI history is kept."),
+                              action: #selector(removeGroupChosen(_:)),
+                              keyEquivalent: "")
+        item.target = self
+        item.representedObject = group.repo ?? ""
+        item.isEnabled = group.sessions.contains { $0.terminalGuid == nil }
+        menu.addItem(item)
+        return menu
     }
 
     // MARK: - Actions
@@ -454,6 +495,22 @@ final class WorkspaceSidebarView: NSVisualEffectView {
     @objc private func toggleClicked() { delegate?.sidebarDidRequestToggle(self) }
     @objc private func searchClicked() { delegate?.sidebarDidRequestSearch(self) }
     @objc private func settingsClicked() { delegate?.sidebarDidRequestSettings(self) }
+    @objc private func removeSessionChosen(_ sender: NSMenuItem) {
+        guard let id = sender.representedObject as? String,
+              let group = groups.first(where: { $0.sessions.contains { $0.id == id } }),
+              let record = group.sessions.first(where: { $0.id == id }) else {
+            return
+        }
+        delegate?.sidebar(self, didRequestRemoveSessions: [record], inRepo: group.repo)
+    }
+
+    @objc private func removeGroupChosen(_ sender: NSMenuItem) {
+        let key = sender.representedObject as? String ?? ""
+        guard let group = groups.first(where: { ($0.repo ?? "") == key }) else { return }
+        let removable = group.sessions.filter { $0.terminalGuid == nil }
+        delegate?.sidebar(self, didRequestRemoveSessions: removable, inRepo: group.repo)
+    }
+
     @objc private func sectionPlusClicked() { delegate?.sidebar(self, didRequestNewSessionInRepo: nil) }
     @objc private func groupPlusClicked(_ sender: NSButton) {
         delegate?.sidebar(self, didRequestNewSessionInRepo: sender.identifier?.rawValue)

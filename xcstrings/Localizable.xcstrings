@@ -1483723,6 +1483723,18 @@
         }
       }
     },
+    "Workspace.Sidebar.Group.RemoveAll" : {
+      "comment" : "Context menu item on a repo group that removes every session in the group from the sidebar. The sessions’ Copilot CLI history is kept.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove all sessions from sidebar"
+          }
+        }
+      }
+    },
     "Workspace.Sidebar.Nav.Automations" : {
       "comment" : "Sidebar row that shows GitHub Actions runs.",
       "extractionState" : "extracted_with_value",
@@ -1483807,6 +1483819,42 @@
         }
       }
     },
+    "Workspace.Sidebar.RemoveAll.Button" : {
+      "comment" : "Button that confirms removing sessions from the sidebar.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.RemoveAll.Message" : {
+      "comment" : "Body of the confirmation shown before removing a group’s sessions from the sidebar. The placeholder is a repo name.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This removes the sessions in %@ from this list. Their Copilot CLI history stays on disk."
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.RemoveAll.Title" : {
+      "comment" : "Title of the confirmation shown before removing every session in a group from the sidebar. The placeholder is a number greater than one.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove %lld sessions from the sidebar?"
+          }
+        }
+      }
+    },
     "Workspace.Sidebar.Search.Tooltip" : {
       "comment" : "Tooltip of the search button. The shortcut is Command-Shift-O.",
       "extractionState" : "extracted_with_value",
@@ -1483827,6 +1483875,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Choose a repo for a new session"
+          }
+        }
+      }
+    },
+    "Workspace.Sidebar.Session.Remove" : {
+      "comment" : "Context menu item that removes one session from the sidebar. The session’s Copilot CLI history is kept.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove from sidebar"
           }
         }
       }

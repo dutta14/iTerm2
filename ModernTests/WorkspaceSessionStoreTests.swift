@@ -116,6 +116,15 @@ final class WorkspaceSessionStoreTests: XCTestCase {
         XCTAssertTrue(store.groups().isEmpty)
     }
 
+    func testHidingSeveralRecordsLeavesTheRestListed() {
+        let store = makeStore()
+        store.upsert(record("a", repo: "o/r", updatedAt: 1))
+        store.upsert(record("b", repo: "o/r", updatedAt: 2))
+        store.upsert(record("c", repo: "o/r", updatedAt: 3))
+        store.hide(ids: ["a", "c"])
+        XCTAssertEqual(store.groups().flatMap { $0.sessions.map { $0.id } }, ["b"])
+    }
+
     func testManualRepoAssignmentMovesTheSession() {
         let store = makeStore()
         store.upsert(record("a", repo: nil, updatedAt: 1))

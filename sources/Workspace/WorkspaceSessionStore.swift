@@ -151,7 +151,12 @@ final class WorkspaceSessionStore {
     }
 
     func hide(id: String) {
-        hiddenIds.insert(id)
+        hide(ids: [id])
+    }
+
+    func hide(ids: [String]) {
+        guard !ids.isEmpty else { return }
+        hiddenIds.formUnion(ids)
         saveAndNotify()
     }
 
