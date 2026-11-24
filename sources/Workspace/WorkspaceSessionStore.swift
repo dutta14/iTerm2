@@ -176,36 +176,44 @@ final class WorkspaceSessionStore {
 
     // MARK: - Import
 
-    private var importStarted = false
+    private var importing = false
+    private var lastImport = Date.distantPast
+    private var resumableIds = Set<String>()
+    private var repoByDirectory = [String: RepoInfo?]()
 
+    /// Safe to call often: runs at most one import at a time, and no more than once every few seconds.
     func importCopilotSessionsInBackground() {
-        guard !importStarted else { return }
-        importStarted = true
+        guard !importing, Date().timeIntervalSince(lastImport) > 10 else { return }
+        importing = true
+        lastImport = Date()
         DispatchQueue.global(qos: .utility).async { [self] in
             importCopilotSessions()
+            DispatchQueue.main.async { self.importing = false }
         }
     }
 
     /// Reads ~/.copilot/session-state. Never modifies it. Blocking; call from a background queue.
-    /// Records the user already has (including manual repo assignments) are left as they are.
+    /// New sessions are added. Existing imported ones follow their workspace.yaml (working
+    /// directory, name, activity) so a session that moved to another directory moves to its repository.
+    /// A repository the user chose by hand is kept.
     func importCopilotSessions() {
         let entries = (try? FileManager.default.contentsOfDirectory(at: copilotStateDirectory,
                                                                     includingPropertiesForKeys: nil)) ?? []
-        var resolvedByDirectory = [String: RepoInfo?]()
-        var imported = [WorkspaceSessionRecord]()
-        let known = Set(records.compactMap { $0.copilotSessionId })
-        var resumable = Set<String>()
-        for entry in entries where Self.hasConversation(in: entry) {
-            resumable.insert(entry.lastPathComponent)
+        let present = Set(entries.map { $0.lastPathComponent })
+        resumableIds.formIntersection(present)
+        for entry in entries where !resumableIds.contains(entry.lastPathComponent) && Self.hasConversation(in: entry) {
+            resumableIds.insert(entry.lastPathComponent)
         }
-        for entry in entries {
+        let resumable = resumableIds
+        var parsedFiles = [CopilotWorkspaceFile]()
+        for entry in entries where resumable.contains(entry.lastPathComponent) {
             let file = entry.appendingPathComponent("workspace.yaml")
-            guard resumable.contains(entry.lastPathComponent),
-                  let text = try? String(contentsOf: file, encoding: .utf8),
-                  let parsed = CopilotWorkspaceFile.parse(text),
-                  !known.contains(parsed.id) else {
-                continue
+            if let text = try? String(contentsOf: file, encoding: .utf8), let parsed = CopilotWorkspaceFile.parse(text) {
+                parsedFiles.append(parsed)
             }
+        }
+        var resolved = [String: (repo: String?, branch: String?, source: WorkspaceRepoSource)]()
+        for parsed in parsedFiles {
             var repo = parsed.repository
             var source = WorkspaceRepoSource.recorded
             var branch = parsed.branch
@@ -213,11 +221,11 @@ final class WorkspaceSessionStore {
                 source = .none
                 if let cwd = parsed.cwd {
                     let info: RepoInfo?
-                    if let cached = resolvedByDirectory[cwd] {
+                    if let cached = repoByDirectory[cwd] {
                         info = cached
                     } else {
                         info = RepoResolver.resolve(directory: cwd)
-                        resolvedByDirectory[cwd] = info
+                        repoByDirectory[cwd] = .some(info)
                     }
                     if let info {
                         repo = info.repo
@@ -226,27 +234,58 @@ final class WorkspaceSessionStore {
                     }
                 }
             }
-            imported.append(WorkspaceSessionRecord(id: "copilot-" + parsed.id,
-                                                   copilotSessionId: parsed.id,
-                                                   imported: true,
-                                                   repo: repo,
-                                                   repoSource: source,
-                                                   cwd: parsed.cwd,
-                                                   branch: branch,
-                                                   title: parsed.name ?? Self.fallbackTitle(cwd: parsed.cwd),
-                                                   status: .done,
-                                                   updatedAt: parsed.updatedAt ?? .distantPast,
-                                                   prNumber: nil,
-                                                   issueNumber: nil,
-                                                   terminalGuid: nil))
+            resolved[parsed.id] = (repo, branch, source)
         }
         DispatchQueue.main.async {
+            var changed = false
             // Drop earlier imports Copilot CLI can no longer resume: empty sessions and deleted ones.
             let before = self.records.count
             self.records.removeAll { $0.imported && !($0.copilotSessionId.map { resumable.contains($0) } ?? false) }
-            guard !imported.isEmpty || self.records.count != before else { return }
-            self.records.append(contentsOf: imported)
-            self.saveAndNotify()
+            changed = self.records.count != before
+            var indexById = [String: Int]()
+            for (index, record) in self.records.enumerated() {
+                if let id = record.copilotSessionId {
+                    indexById[id] = index
+                }
+            }
+            for parsed in parsedFiles {
+                guard let found = resolved[parsed.id] else { continue }
+                let title = parsed.name ?? Self.fallbackTitle(cwd: parsed.cwd)
+                if let index = indexById[parsed.id] {
+                    var record = self.records[index]
+                    guard record.imported else { continue }
+                    record.cwd = parsed.cwd
+                    record.title = title
+                    record.updatedAt = parsed.updatedAt ?? record.updatedAt
+                    if record.repoSource != .manual {
+                        record.repo = found.repo
+                        record.branch = found.branch
+                        record.repoSource = found.source
+                    }
+                    if record != self.records[index] {
+                        self.records[index] = record
+                        changed = true
+                    }
+                } else {
+                    self.records.append(WorkspaceSessionRecord(id: "copilot-" + parsed.id,
+                                                               copilotSessionId: parsed.id,
+                                                               imported: true,
+                                                               repo: found.repo,
+                                                               repoSource: found.source,
+                                                               cwd: parsed.cwd,
+                                                               branch: found.branch,
+                                                               title: title,
+                                                               status: .done,
+                                                               updatedAt: parsed.updatedAt ?? .distantPast,
+                                                               prNumber: nil,
+                                                               issueNumber: nil,
+                                                               terminalGuid: nil))
+                    changed = true
+                }
+            }
+            if changed {
+                self.saveAndNotify()
+            }
         }
     }
 

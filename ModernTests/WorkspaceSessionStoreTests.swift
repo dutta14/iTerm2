@@ -188,4 +188,32 @@ final class WorkspaceSessionStoreTests: XCTestCase {
 
         XCTAssertEqual(store.visibleRecords.map { $0.id }, ["live-1"])
     }
+
+    func testImportMovesAnExistingSessionWhenItsWorkingDirectoryChanges() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let id = "44444444-4444-4444-4444-444444444444"
+        let events = "{\"type\":\"user.message\",\"data\":{}}\n"
+        try writeCopilotSession(id, in: root, events: events)
+        let store = WorkspaceSessionStore(fileURL: nil, copilotStateDirectory: root)
+        func importAndWait() {
+            store.importCopilotSessions()
+            let flushed = expectation(description: "main queue drained")
+            DispatchQueue.main.async { flushed.fulfill() }
+            wait(for: [flushed], timeout: 5)
+        }
+        importAndWait()
+        XCTAssertEqual(store.records.first?.cwd, "/tmp")
+
+        try "id: \(id)\ncwd: /var\nrepository: o/moved\nname: Renamed\n".write(
+            to: root.appendingPathComponent(id).appendingPathComponent("workspace.yaml"),
+            atomically: true,
+            encoding: .utf8)
+        importAndWait()
+
+        XCTAssertEqual(store.records.count, 1)
+        XCTAssertEqual(store.records.first?.cwd, "/var")
+        XCTAssertEqual(store.records.first?.repo, "o/moved")
+        XCTAssertEqual(store.records.first?.title, "Renamed")
+    }
 }
