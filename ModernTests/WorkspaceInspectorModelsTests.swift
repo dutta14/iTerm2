@@ -163,6 +163,13 @@ final class WorkspaceInspectorModelsTests: XCTestCase {
         XCTAssertEqual(picked?.number, 2)
     }
 
+    func testBranchPickerIgnoresForkPullRequests() {
+        var fork = match(1, "OPEN", daysAgo: 0)
+        fork.isCrossRepository = true
+        XCTAssertNil(PullRequestBranchPicker.pick(from: [fork]))
+        XCTAssertEqual(PullRequestBranchPicker.pick(from: [fork, match(2, "CLOSED", daysAgo: 3)])?.number, 2)
+    }
+
     func testBranchPickerFallsBackToNewestWhenNoneOpen() {
         let picked = PullRequestBranchPicker.pick(from: [match(1, "MERGED", daysAgo: 9), match(2, "CLOSED", daysAgo: 1)])
         XCTAssertEqual(picked?.number, 2)

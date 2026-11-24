@@ -169,6 +169,8 @@ struct PullRequestBranchMatch: Decodable, Equatable {
     let state: String
     let url: String
     let updatedAt: Date
+    /// True when the head branch lives in a fork, so it only shares a name with this branch.
+    var isCrossRepository: Bool? = nil
 }
 
 struct PullRequestDetail: Decodable, Equatable {
@@ -477,7 +479,7 @@ final class GitHubClient {
         }
         fetch([PullRequestBranchMatch].self,
               arguments: ["pr", "list", "-R", repo, "--head=" + branch, "--state", "all", "--limit", "5",
-                          "--json", "number,title,state,url,updatedAt"],
+                          "--json", "number,title,state,url,updatedAt,isCrossRepository"],
               completion: completion)
     }
 

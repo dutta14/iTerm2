@@ -377,7 +377,7 @@ final class WorkspaceController: NSObject {
                     self.branchPullRequests[key] = (Date(), PullRequestBranchPicker.pick(from: matches), false)
                 case .failure:
                     // Keep any earlier answer and retry after the cache window.
-                    self.branchPullRequests[key] = (Date(), cached?.match, cached == nil)
+                    self.branchPullRequests[key] = (Date(), cached?.match, cached?.failed ?? true)
                 }
                 self.refresh()
             }

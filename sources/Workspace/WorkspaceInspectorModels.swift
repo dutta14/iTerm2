@@ -403,9 +403,9 @@ enum InspectorPullRequestState: Equatable {
 }
 
 enum PullRequestBranchPicker {
-    /// An open pull request wins; otherwise the most recently updated one.
+    /// An open pull request wins; otherwise the most recently updated one. Fork pull requests are ignored.
     static func pick(from matches: [PullRequestBranchMatch]) -> PullRequestBranchMatch? {
-        let newestFirst = matches.sorted { $0.updatedAt > $1.updatedAt }
+        let newestFirst = matches.filter { $0.isCrossRepository != true }.sorted { $0.updatedAt > $1.updatedAt }
         return newestFirst.first { $0.state.uppercased() == "OPEN" } ?? newestFirst.first
     }
 }
